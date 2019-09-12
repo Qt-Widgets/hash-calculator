@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(hashcalculator LANGUAGES CXX)
+project(hashcalculator)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
@@ -16,6 +16,10 @@ find_package(Qt5 COMPONENTS Widgets REQUIRED)
 set(HEADERS hashcalculator.h widget.h)
 set(SOURCES hashcalculator.cpp widget.cpp main.cpp)
 set(UIS widget.ui)
+
+if(WIN32)
+    list(APPEND SOURCES hashcalculator.rc)
+endif()
 
 add_executable(hashcalculator ${HEADERS} ${SOURCES} ${UIS})
 

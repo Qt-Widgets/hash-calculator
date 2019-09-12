@@ -32,7 +32,7 @@ find_program(DEPLOYQT_EXECUTABLE NAMES windeployqt macdeployqt HINTS "${_qt_bin_
 
 set(HEADERS hashcalculator.h widget.h)
 set(SOURCES hashcalculator.cpp widget.cpp main.cpp)
-set(UIS widget.ui)
+set(FORMS widget.ui)
 
 if(WIN32)
     list(APPEND SOURCES hashcalculator.rc)
@@ -41,9 +41,9 @@ else()
 endif()
 
 if(WIN32)
-    add_executable(${PROJECT_NAME} WIN32 ${HEADERS} ${SOURCES} ${UIS})
+    add_executable(${PROJECT_NAME} WIN32 ${HEADERS} ${SOURCES} ${FORMS})
 else()
-    add_executable(${PROJECT_NAME} ${HEADERS} ${SOURCES} ${UIS})
+    add_executable(${PROJECT_NAME} ${HEADERS} ${SOURCES} ${FORMS})
 endif()
 
 if(WIN32 AND NOT ${CMAKE_BUILD_TYPE} STREQUAL Debug)

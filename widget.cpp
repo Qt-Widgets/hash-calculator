@@ -1,6 +1,5 @@
 #include "widget.h"
 #include "./ui_widget.h"
-#include <QDateTime>
 #include <QDir>
 #include <QDragEnterEvent>
 #include <QDropEvent>
@@ -15,8 +14,8 @@ Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
     hashCalculator.moveToThread(&thread);
     connect(ui->pushButton_open_file, &QPushButton::clicked, this, [this] {
         if (checkAlgorithmList()) {
-            const QStringList list =
-                QFileDialog::getOpenFileNames(this, tr("Please select a file"));
+            const QStringList list = QFileDialog::getOpenFileNames(
+                this, tr("Please select file(s)"));
             if (!list.isEmpty()) {
                 setFileList(list);
             }
@@ -60,7 +59,8 @@ Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
             [this](const QString &_algorithm, const QString &_hash) {
                 if (!_algorithm.isEmpty() && !_hash.isEmpty()) {
                     ui->textEdit_log->append(
-                        QStringLiteral("File %1: %2")
+                        QStringLiteral(
+                            "<font color=\"#287CE5\"><b>File %1</b></font>: %2")
                             .arg(_algorithm, _hash.toUpper()));
                 }
             });
@@ -68,11 +68,17 @@ Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
             [this](quint32 _progress) {
                 ui->progressBar_current->setValue(static_cast<int>(_progress));
             });
-    connect(&hashCalculator, &HashCalculator::started, this,
-            [this] { outputFileInfo(hashCalculator.file()); });
+    connect(&hashCalculator, &HashCalculator::started, this, [this] {
+        ui->textEdit_log->append(
+            tr("<font color=\"red\"><b>File path</b></font>: %1")
+                .arg(QDir::toNativeSeparators(hashCalculator.file())));
+    });
     connect(&hashCalculator, &HashCalculator::finished, this, [this] {
-        ui->textEdit_log->append(QLatin1String(
-            "------------------------------------------------------"));
+        ui->textEdit_log->append(
+            QLatin1String("<font "
+                          "color=\"#14B09F\">----------------------------------"
+                          "------------------"
+                          "-------------</font>"));
         Q_ASSERT(!fileList.isEmpty());
         fileList.removeLast();
         ui->progressBar_total->setValue(ui->progressBar_total->maximum() -
@@ -125,22 +131,6 @@ void Widget::dropEvent(QDropEvent *event) {
     }
     setFileList(list);
     event->acceptProposedAction();
-}
-
-void Widget::outputFileInfo(const QString &path) {
-    if (path.isEmpty() || !QFileInfo::exists(path)) {
-        return;
-    }
-    QFileInfo fileInfo(path);
-    ui->textEdit_log->append(
-        tr("File path: %1").arg(QDir::toNativeSeparators(path)));
-    ui->textEdit_log->append(tr("File size: %1 bytes").arg(fileInfo.size()));
-    ui->textEdit_log->append(tr("File create time: %1")
-                                 .arg(fileInfo.birthTime().toString(
-                                     QLatin1String("yyyy/MM/dd HH:mm:ss"))));
-    ui->textEdit_log->append(tr("File last modify time: %1")
-                                 .arg(fileInfo.lastModified().toString(
-                                     QLatin1String("yyyy/MM/dd HH:mm:ss"))));
 }
 
 void Widget::computeFileHash(const QString &path) {

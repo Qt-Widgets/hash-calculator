@@ -23,7 +23,6 @@ protected:
     void dropEvent(QDropEvent *event) override;
 
 private:
-    void outputFileInfo(const QString &path);
     void computeFileHash(const QString &path);
     void setFileList(const QStringList &list);
     [[nodiscard]] QStringList

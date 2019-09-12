@@ -158,17 +158,31 @@ QStringList Widget::getFolderContents(const QString &folderPath) const {
         !QFileInfo(folderPath).isDir()) {
         return {};
     }
-    const auto fileInfoList = QDir(folderPath)
-                                  .entryInfoList(QDir::Files | QDir::Readable,
-                                                 QDir::Name | QDir::Reversed);
-    if (fileInfoList.isEmpty()) {
+    const QDir dir(folderPath);
+    const auto fileInfoList = dir.entryInfoList(
+        QDir::Files | QDir::Readable | QDir::Hidden | QDir::System, QDir::Name);
+    const auto folderInfoList = dir.entryInfoList(
+        QDir::Dirs | QDir::NoDotAndDotDot | QDir::Readable, QDir::Name);
+    if (fileInfoList.isEmpty() && folderInfoList.isEmpty()) {
         return {};
     }
-    QStringList stringList;
-    for (const auto &fileInfo : fileInfoList) {
-        stringList.append(QDir::toNativeSeparators(
-            fileInfo.isSymLink() ? fileInfo.symLinkTarget()
-                                 : fileInfo.canonicalFilePath()));
+    QStringList stringList{};
+    if (!fileInfoList.isEmpty()) {
+        for (const auto &fileInfo : fileInfoList) {
+            stringList.append(QDir::toNativeSeparators(
+                fileInfo.isSymLink() ? fileInfo.symLinkTarget()
+                                     : fileInfo.canonicalFilePath()));
+        }
+    }
+    if (!folderInfoList.isEmpty()) {
+        for (const auto &folderInfo : folderInfoList) {
+            const QStringList _fileList = getFolderContents(
+                folderInfo.isSymLink() ? folderInfo.symLinkTarget()
+                                       : folderInfo.canonicalFilePath());
+            if (!_fileList.isEmpty()) {
+                stringList.append(_fileList);
+            }
+        }
     }
     return stringList;
 }

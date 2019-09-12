@@ -19,7 +19,8 @@ int main(int argc, char *argv[]) {
     QCoreApplication::setOrganizationName(QLatin1String("wangwenx190"));
     QCoreApplication::setOrganizationDomain(
         QLatin1String("wangwenx190.github.io"));
-    const QFont font(QLatin1String("PingFang SC"), 10);
+    QFont font;
+    font.setPointSize(12);
     QGuiApplication::setFont(font);
     QCommandLineParser commandLineParser;
     commandLineParser.setApplicationDescription(QCoreApplication::translate(

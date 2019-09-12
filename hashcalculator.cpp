@@ -37,6 +37,9 @@ void HashCalculator::compute() {
     }
     Q_EMIT started();
     for (const auto &algorithmString : qAsConst(hashAlgorithmList)) {
+        if (shouldStop) {
+            return;
+        }
         if (!targetFile.open(QFile::ReadOnly)) {
             qWarning().noquote()
                 << "Failed to open file:" << targetFile.errorString();
@@ -47,8 +50,10 @@ void HashCalculator::compute() {
         QCryptographicHash cryptographicHash(str2enum(hashAlgorithm));
         QByteArray buffer;
         qint64 loadedDataSize = 0;
-        while (!(buffer = targetFile.read(10 * 1024 * 1024)).isEmpty() &&
-               !shouldStop) {
+        while (!(buffer = targetFile.read(10 * 1024 * 1024)).isEmpty()) {
+            if (shouldStop) {
+                return;
+            }
             cryptographicHash.addData(buffer);
             computeProgress = static_cast<quint32>(
                 (loadedDataSize += buffer.size()) * 100.0 / targetFile.size());

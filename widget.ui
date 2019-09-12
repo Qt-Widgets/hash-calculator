@@ -59,9 +59,9 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_3">
      <item>
-      <widget class="QGroupBox" name="groupBox_md4_5">
+      <widget class="QGroupBox" name="groupBox_classic">
        <property name="title">
-        <string>GroupBox</string>
+        <string>Classic</string>
        </property>
        <layout class="QGridLayout" name="gridLayout_4">
         <item row="0" column="0">

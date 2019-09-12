@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.1" id="tuceng_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 256 256" style="enable-background:new 0 0 256 256;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#299CC0;}
+	.st1{fill:none;}
+	.st2{fill:#FFFFFF;}
+	.st3{font-family:'TimesNewRomanPSMT';}
+	.st4{font-size:176px;}
+</style>
+<path class="st0" d="M244,256H12c-6.6,0-12-5.4-12-12V12C0,5.4,5.4,0,12,0h232c6.6,0,12,5.4,12,12v232C256,250.6,250.6,256,244,256z
+	"/>
+<rect x="5.1" y="37.9" class="st1" width="245.7" height="180.3"/>
+<text transform="matrix(1 0 0 1 5.754 184.1264)" class="st2 st3 st4">HC</text>
+</svg>

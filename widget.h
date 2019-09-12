@@ -28,10 +28,12 @@ private:
     void setFileList(const QStringList &list);
     [[nodiscard]] QStringList
     getFolderContents(const QString &folderPath) const;
+    void refreshAlgorithmList();
+    bool checkAlgorithmList();
 
 private:
     Ui::Widget *ui = nullptr;
     HashCalculator hashCalculator;
     QThread thread;
-    QStringList fileList;
+    QStringList fileList = {}, algorithmList = {};
 };

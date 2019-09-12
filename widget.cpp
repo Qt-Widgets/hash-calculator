@@ -12,27 +12,33 @@
 
 Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
     ui->setupUi(this);
-    ui->progressBar_total->setMaximum(1);
     hashCalculator.moveToThread(&thread);
     connect(ui->pushButton_open_file, &QPushButton::clicked, this, [this] {
-        const QStringList list =
-            QFileDialog::getOpenFileNames(this, tr("Please select a file"));
-        if (!list.isEmpty()) {
-            setFileList(list);
-        }
-    });
-    connect(ui->pushButton_open_folder, &QPushButton::clicked, this, [this] {
-        const QString path = QFileDialog::getExistingDirectory(
-            this, tr("Please select a folder"));
-        if (!path.isEmpty()) {
-            QStringList list = getFolderContents(path);
+        if (checkAlgorithmList()) {
+            const QStringList list =
+                QFileDialog::getOpenFileNames(this, tr("Please select a file"));
             if (!list.isEmpty()) {
                 setFileList(list);
             }
         }
     });
-    connect(ui->pushButton_clear, &QPushButton::clicked, this,
-            [this] { ui->textEdit_log->clear(); });
+    connect(ui->pushButton_open_folder, &QPushButton::clicked, this, [this] {
+        if (checkAlgorithmList()) {
+            const QString path = QFileDialog::getExistingDirectory(
+                this, tr("Please select a folder"));
+            if (!path.isEmpty()) {
+                QStringList list = getFolderContents(path);
+                if (!list.isEmpty()) {
+                    setFileList(list);
+                }
+            }
+        }
+    });
+    connect(ui->pushButton_clear, &QPushButton::clicked, this, [this] {
+        ui->textEdit_log->clear();
+        ui->progressBar_current->setValue(0);
+        ui->progressBar_total->setValue(0);
+    });
     connect(ui->pushButton_compare, &QPushButton::clicked, this, [this] {
         const QString targetHash = ui->lineEdit_hash->text().trimmed();
         if (targetHash.isEmpty()) {
@@ -46,19 +52,27 @@ Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
             }
         }
     });
-    connect(&hashCalculator, &HashCalculator::fileChanged, this, [] {});
-    connect(&hashCalculator, &HashCalculator::algorithmChanged, this, [] {});
-    connect(&hashCalculator, &HashCalculator::hashChanged, this, [] {});
-    connect(&hashCalculator, &HashCalculator::progressChanged, this, [this] {
-        ui->progressBar_current->setValue(
-            static_cast<int>(hashCalculator.progress()));
-    });
+    connect(&hashCalculator, &HashCalculator::fileChanged, this,
+            [](const QString &_path) { Q_UNUSED(_path) });
+    connect(&hashCalculator, &HashCalculator::algorithmListChanged, this,
+            [](const QStringList &_algorithmList) { Q_UNUSED(_algorithmList) });
+    connect(&hashCalculator, &HashCalculator::hashChanged, this,
+            [this](const QString &_algorithm, const QString &_hash) {
+                if (!_algorithm.isEmpty() && !_hash.isEmpty()) {
+                    ui->textEdit_log->append(
+                        QStringLiteral("File %1: %2")
+                            .arg(_algorithm, _hash.toUpper()));
+                }
+            });
+    connect(&hashCalculator, &HashCalculator::progressChanged, this,
+            [this](quint32 _progress) {
+                ui->progressBar_current->setValue(static_cast<int>(_progress));
+            });
     connect(&hashCalculator, &HashCalculator::started, this,
             [this] { outputFileInfo(hashCalculator.file()); });
     connect(&hashCalculator, &HashCalculator::finished, this, [this] {
-        ui->textEdit_log->append(tr("File %1: %2")
-                                     .arg(hashCalculator.algorithm(),
-                                          hashCalculator.hash().toUpper()));
+        ui->textEdit_log->append(QLatin1String(
+            "------------------------------------------------------"));
         Q_ASSERT(!fileList.isEmpty());
         fileList.removeLast();
         ui->progressBar_total->setValue(ui->progressBar_total->maximum() -
@@ -72,13 +86,16 @@ Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
 
 Widget::~Widget() {
     delete ui;
+    hashCalculator.stop();
     thread.quit();
     thread.wait();
 }
 
 void Widget::dragEnterEvent(QDragEnterEvent *event) {
     if (event->mimeData()->hasUrls()) {
-        event->acceptProposedAction();
+        if (checkAlgorithmList()) {
+            event->acceptProposedAction();
+        }
     }
 }
 
@@ -131,7 +148,7 @@ void Widget::computeFileHash(const QString &path) {
         return;
     }
     hashCalculator.reset();
-    hashCalculator.setAlgorithm(QLatin1String("SHA-256"));
+    hashCalculator.setAlgorithmList(algorithmList);
     hashCalculator.setFile(fileList.constLast());
     Q_EMIT hashCalculator.startComputing();
 }
@@ -164,4 +181,53 @@ QStringList Widget::getFolderContents(const QString &folderPath) const {
                                  : fileInfo.canonicalFilePath()));
     }
     return stringList;
+}
+
+void Widget::refreshAlgorithmList() {
+    if (!algorithmList.isEmpty()) {
+        algorithmList.clear();
+    }
+    if (ui->checkBox_md4->isChecked()) {
+        algorithmList.append(QLatin1String("MD4"));
+    }
+    if (ui->checkBox_md5->isChecked()) {
+        algorithmList.append(QLatin1String("MD5"));
+    }
+    if (ui->checkBox_sha1->isChecked()) {
+        algorithmList.append(QLatin1String("SHA-1"));
+    }
+    if (ui->checkBox_sha2_224->isChecked()) {
+        algorithmList.append(QLatin1String("SHA-224"));
+    }
+    if (ui->checkBox_sha2_256->isChecked()) {
+        algorithmList.append(QLatin1String("SHA-256"));
+    }
+    if (ui->checkBox_sha2_384->isChecked()) {
+        algorithmList.append(QLatin1String("SHA-384"));
+    }
+    if (ui->checkBox_sha2_512->isChecked()) {
+        algorithmList.append(QLatin1String("SHA-512"));
+    }
+    if (ui->checkBox_sha3_224->isChecked()) {
+        algorithmList.append(QLatin1String("SHA3-224"));
+    }
+    if (ui->checkBox_sha3_256->isChecked()) {
+        algorithmList.append(QLatin1String("SHA3-256"));
+    }
+    if (ui->checkBox_sha3_384->isChecked()) {
+        algorithmList.append(QLatin1String("SHA3-384"));
+    }
+    if (ui->checkBox_sha3_512->isChecked()) {
+        algorithmList.append(QLatin1String("SHA3-512"));
+    }
+}
+
+bool Widget::checkAlgorithmList() {
+    refreshAlgorithmList();
+    if (algorithmList.isEmpty()) {
+        QMessageBox::warning(this, tr("Warning"),
+                             tr("You should select at least one algorithm."));
+        return false;
+    }
+    return true;
 }

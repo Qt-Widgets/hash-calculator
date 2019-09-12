@@ -62,3 +62,6 @@ build.user.bat
 build.user.sh
 user.conf
 [Dd]oc/
+*.rc
+*.qm
+Thumbs.db

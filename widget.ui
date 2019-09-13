@@ -181,14 +181,14 @@
      <item>
       <widget class="QLabel" name="label_hash">
        <property name="text">
-        <string>Hash</string>
+        <string>Hash value</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QLineEdit" name="lineEdit_hash">
        <property name="placeholderText">
-        <string>Hash to compare</string>
+        <string>Hash value to compare</string>
        </property>
       </widget>
      </item>

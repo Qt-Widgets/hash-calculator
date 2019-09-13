@@ -8,6 +8,10 @@
 #include <QMessageBox>
 #include <QMimeData>
 #include <QUrl>
+#ifdef Q_OS_WINDOWS
+#include <QWinTaskbarButton>
+#include <QWinTaskbarProgress>
+#endif
 
 Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
     ui->setupUi(this);
@@ -15,7 +19,7 @@ Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
     connect(ui->pushButton_open_file, &QPushButton::clicked, this, [this] {
         if (checkAlgorithmList()) {
             const QStringList list = QFileDialog::getOpenFileNames(
-                this, tr("Please select file(s)"));
+                this, tr("Please select a file(s)"));
             if (!list.isEmpty()) {
                 setFileList(list);
             }
@@ -35,19 +39,21 @@ Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
     });
     connect(ui->pushButton_clear, &QPushButton::clicked, this, [this] {
         ui->textEdit_log->clear();
-        ui->progressBar_current->setValue(0);
-        ui->progressBar_total->setValue(0);
+        if (!isComputing) {
+            ui->progressBar_current->setValue(0);
+            ui->progressBar_total->setValue(0);
+        }
     });
     connect(ui->pushButton_compare, &QPushButton::clicked, this, [this] {
         const QString targetHash = ui->lineEdit_hash->text().trimmed();
         if (targetHash.isEmpty()) {
             QMessageBox::warning(this, tr("Warning"),
-                                 tr("You have to enter a hash string first."));
+                                 tr("You have to enter a hash value first."));
         } else {
             if (!ui->textEdit_log->find(targetHash,
                                         QTextDocument::FindWholeWords)) {
                 QMessageBox::information(this, tr("Result"),
-                                         tr("There is no same hash."));
+                                         tr("There is no same hash value."));
             }
         }
     });
@@ -59,8 +65,7 @@ Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
             [this](const QString &_algorithm, const QString &_hash) {
                 if (!_algorithm.isEmpty() && !_hash.isEmpty()) {
                     ui->textEdit_log->append(
-                        QStringLiteral(
-                            "<font color=\"#287CE5\"><b>File %1</b></font>: %2")
+                        tr("<font color=\"#287CE5\"><b>File %1</b></font>: %2")
                             .arg(_algorithm, _hash.toUpper()));
                 }
             });
@@ -70,7 +75,7 @@ Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
             });
     connect(&hashCalculator, &HashCalculator::started, this, [this] {
         ui->textEdit_log->append(
-            tr("<font color=\"red\"><b>File path</b></font>: %1")
+            tr("<font color=\"red\"><b>File path</b></font>: \"%1\"")
                 .arg(QDir::toNativeSeparators(hashCalculator.file())));
     });
     connect(&hashCalculator, &HashCalculator::finished, this, [this] {
@@ -83,7 +88,15 @@ Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
         fileList.removeLast();
         ui->progressBar_total->setValue(ui->progressBar_total->maximum() -
                                         fileList.count());
-        if (!fileList.isEmpty()) {
+        if (fileList.isEmpty()) {
+            if (!ui->pushButton_open_file->isEnabled()) {
+                ui->pushButton_open_file->setEnabled(true);
+            }
+            if (!ui->pushButton_open_folder->isEnabled()) {
+                ui->pushButton_open_folder->setEnabled(true);
+            }
+            isComputing = false;
+        } else {
             computeFileHash(fileList.constLast());
         }
     });
@@ -98,16 +111,31 @@ Widget::~Widget() {
 }
 
 void Widget::dragEnterEvent(QDragEnterEvent *event) {
-    if (event->mimeData()->hasUrls()) {
-        if (checkAlgorithmList()) {
-            event->acceptProposedAction();
-        }
+    if (isComputing) {
+        event->ignore();
+        return;
     }
+    if (!event->mimeData()->hasUrls()) {
+        event->ignore();
+        return;
+    }
+    const bool ok = checkAlgorithmList(false);
+    if (!ok) {
+        event->ignore();
+        return;
+    }
+    // event->accept();
+    event->acceptProposedAction();
 }
 
 void Widget::dropEvent(QDropEvent *event) {
+    if (isComputing) {
+        event->ignore();
+        return;
+    }
     const auto urls = event->mimeData()->urls();
     if (urls.isEmpty()) {
+        event->ignore();
         return;
     }
     QStringList list;
@@ -116,22 +144,79 @@ void Widget::dropEvent(QDropEvent *event) {
             const QString path = url.toLocalFile();
             const QFileInfo fileInfo(path);
             if (fileInfo.isDir()) {
-                const QStringList folderContents = getFolderContents(path);
+                const QStringList folderContents = getFolderContents(
+                    fileInfo.isSymLink() ? fileInfo.symLinkTarget()
+                                         : fileInfo.canonicalFilePath());
                 if (!folderContents.isEmpty()) {
                     list.append(folderContents);
                 }
             } else if (fileInfo.isFile()) {
-                list.append(fileInfo.isSymLink() ? fileInfo.symLinkTarget()
-                                                 : path);
+                list.append(fileInfo.isSymLink()
+                                ? fileInfo.symLinkTarget()
+                                : fileInfo.canonicalFilePath());
             }
         }
     }
     if (list.isEmpty()) {
+        event->ignore();
         return;
     }
     setFileList(list);
+    // event->accept();
     event->acceptProposedAction();
 }
+
+#ifdef Q_OS_WINDOWS
+void Widget::showEvent(QShowEvent *event) {
+    auto *winTaskbarButton = new QWinTaskbarButton(this);
+    winTaskbarButton->setWindow(windowHandle());
+    QWinTaskbarProgress *winTaskbarProgress = winTaskbarButton->progress();
+    connect(this, &Widget::started, this, [winTaskbarProgress](int count) {
+        winTaskbarProgress->reset();
+        winTaskbarProgress->setMaximum(count > 1 ? count : 100);
+    });
+    connect(&hashCalculator, &HashCalculator::started, this,
+            [winTaskbarProgress] {
+                if (winTaskbarProgress->isPaused() ||
+                    winTaskbarProgress->isStopped()) {
+                    winTaskbarProgress->resume();
+                }
+                if (!winTaskbarProgress->isVisible()) {
+                    winTaskbarProgress->show();
+                }
+            });
+    connect(&hashCalculator, &HashCalculator::finished, this,
+            [this, winTaskbarProgress] {
+                bool shouldStop = true;
+                if (multiFileMode) {
+                    const int progress =
+                        winTaskbarProgress->maximum() - fileList.count();
+                    shouldStop = (progress >= winTaskbarProgress->maximum());
+                    winTaskbarProgress->setValue(progress);
+                }
+                if (shouldStop) {
+                    if (winTaskbarProgress->isVisible()) {
+                        winTaskbarProgress->hide();
+                    }
+                    winTaskbarProgress->reset();
+                }
+            });
+    connect(&hashCalculator, &HashCalculator::progressChanged, this,
+            [this, winTaskbarProgress](quint32 progress) {
+                if (winTaskbarProgress->isPaused() ||
+                    winTaskbarProgress->isStopped()) {
+                    winTaskbarProgress->resume();
+                }
+                if (!multiFileMode) {
+                    winTaskbarProgress->setValue(static_cast<int>(progress));
+                }
+                if (!winTaskbarProgress->isVisible()) {
+                    winTaskbarProgress->show();
+                }
+            });
+    QWidget::showEvent(event);
+}
+#endif
 
 void Widget::computeFileHash(const QString &path) {
     if (path.isEmpty() || !QFileInfo::exists(path)) {
@@ -148,8 +233,18 @@ void Widget::setFileList(const QStringList &list) {
         return;
     }
     fileList = list;
+    const int count = fileList.count();
+    multiFileMode = (count > 1);
     ui->progressBar_total->setValue(0);
-    ui->progressBar_total->setMaximum(fileList.count());
+    ui->progressBar_total->setMaximum(count);
+    if (ui->pushButton_open_file->isEnabled()) {
+        ui->pushButton_open_file->setEnabled(false);
+    }
+    if (ui->pushButton_open_folder->isEnabled()) {
+        ui->pushButton_open_folder->setEnabled(false);
+    }
+    isComputing = true;
+    Q_EMIT started(count);
     computeFileHash(fileList.constLast());
 }
 
@@ -158,7 +253,9 @@ QStringList Widget::getFolderContents(const QString &folderPath) const {
         !QFileInfo(folderPath).isDir()) {
         return {};
     }
-    const QDir dir(folderPath);
+    const QFileInfo dirInfo(folderPath);
+    const QDir dir(dirInfo.isSymLink() ? dirInfo.symLinkTarget()
+                                       : dirInfo.canonicalFilePath());
     const auto fileInfoList = dir.entryInfoList(
         QDir::Files | QDir::Readable | QDir::Hidden | QDir::System, QDir::Name);
     const auto folderInfoList = dir.entryInfoList(
@@ -226,11 +323,14 @@ void Widget::refreshAlgorithmList() {
     }
 }
 
-bool Widget::checkAlgorithmList() {
+bool Widget::checkAlgorithmList(bool showUI) {
     refreshAlgorithmList();
     if (algorithmList.isEmpty()) {
-        QMessageBox::warning(this, tr("Warning"),
-                             tr("You should select at least one algorithm."));
+        if (showUI) {
+            QMessageBox::warning(
+                this, tr("Warning"),
+                tr("You should select at least one hash algorithm."));
+        }
         return false;
     }
     return true;

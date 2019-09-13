@@ -3,6 +3,7 @@
 #include <QCommandLineOption>
 #include <QCommandLineParser>
 #include <QFont>
+#include <QTranslator>
 #ifndef Q_OS_WINDOWS
 #include <QIcon>
 #endif
@@ -22,9 +23,14 @@ int main(int argc, char *argv[]) {
     QFont font;
     font.setPointSize(12);
     QGuiApplication::setFont(font);
+    QTranslator translator;
+    if (translator.load(QLocale(), QLatin1String("hashcalculator"),
+                        QLatin1String("_"), QLatin1String(":/i18n"))) {
+        QCoreApplication::installTranslator(&translator);
+    }
     QCommandLineParser commandLineParser;
     commandLineParser.setApplicationDescription(QCoreApplication::translate(
-        "main", "A simple tool to compute hash for files."));
+        "main", "A simple tool to compute hash value for files."));
     commandLineParser.addHelpOption();
     commandLineParser.addVersionOption();
     commandLineParser.addPositionalArgument(
@@ -32,7 +38,7 @@ int main(int argc, char *argv[]) {
         QCoreApplication::translate("main", "Hash algorithms."));
     commandLineParser.addPositionalArgument(
         QLatin1String("files"),
-        QCoreApplication::translate("main", "Files to be computed."));
+        QCoreApplication::translate("main", "Files to be processed."));
     commandLineParser.process(application);
     Widget widget;
 #ifndef Q_OS_WINDOWS

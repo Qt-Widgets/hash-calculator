@@ -1,5 +1,6 @@
 #include "widget.h"
 #include "./ui_widget.h"
+#include <QDebug>
 #include <QDir>
 #include <QDragEnterEvent>
 #include <QDropEvent>
@@ -50,8 +51,33 @@ Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
             QMessageBox::warning(this, tr("Warning"),
                                  tr("You have to enter a hash value first."));
         } else {
-            if (!ui->textEdit_log->find(targetHash,
-                                        QTextDocument::FindWholeWords)) {
+            bool found = false;
+            QTextDocument *textDocument = ui->textEdit_log->document();
+            QTextCursor highLightTextCursor(textDocument);
+            QTextCursor textCursor(textDocument);
+            textCursor.beginEditBlock();
+            QTextCharFormat highLightTextCharFormat(
+                highLightTextCursor.charFormat());
+            highLightTextCharFormat.setForeground(Qt::magenta);
+            highLightTextCharFormat.setBackground(Qt::yellow);
+            highLightTextCharFormat.setFontItalic(true);
+            highLightTextCharFormat.setFontUnderline(true);
+            highLightTextCharFormat.setUnderlineColor(Qt::darkGray);
+            highLightTextCharFormat.setUnderlineStyle(
+                QTextCharFormat::DashDotLine);
+            while (!highLightTextCursor.isNull() &&
+                   !highLightTextCursor.atEnd()) {
+                highLightTextCursor = textDocument->find(
+                    targetHash.toUpper(), highLightTextCursor,
+                    QTextDocument::FindWholeWords);
+                if (!highLightTextCursor.isNull()) {
+                    found = true;
+                    highLightTextCursor.mergeCharFormat(
+                        highLightTextCharFormat);
+                }
+            }
+            textCursor.endEditBlock();
+            if (!found) {
                 QMessageBox::information(this, tr("Result"),
                                          tr("There is no same hash value."));
             }
@@ -121,6 +147,8 @@ void Widget::dragEnterEvent(QDragEnterEvent *event) {
     }
     const bool ok = checkAlgorithmList(false);
     if (!ok) {
+        qDebug().noquote() << "The drag & drop event was ignored due to no "
+                              "hash algorithms were selected.";
         event->ignore();
         return;
     }

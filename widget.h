@@ -1,6 +1,7 @@
 #pragma once
 
 #include "hashcalculator.h"
+#include <QFutureWatcher>
 #include <QThread>
 #include <QWidget>
 
@@ -20,6 +21,9 @@ Q_SIGNALS:
 public:
     explicit Widget(QWidget *parent = nullptr);
     ~Widget() override;
+
+public Q_SLOTS:
+    void handleDirSearching();
 
 protected:
     void dragEnterEvent(QDragEnterEvent *event) override;
@@ -41,5 +45,7 @@ private:
     HashCalculator hashCalculator;
     QThread thread;
     QStringList fileList = {}, algorithmList = {};
-    bool isComputing = false, multiFileMode = false;
+    bool isComputing = false, multiFileMode = false,
+         futureWatcherCanceled = false;
+    QFutureWatcher<QStringList> futureWatcher;
 };

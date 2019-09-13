@@ -50,9 +50,10 @@ private:
     QCryptographicHash::Algorithm str2enum(const QString &string);
 
 private:
-    QStringList hashAlgorithmList = {QLatin1String("MD4")};
+    QStringList hashAlgorithmList = {QLatin1String("MD5"),
+                                     QLatin1String("SHA-256")};
     QFile targetFile;
-    QString computeResult = QString(), hashAlgorithm = QLatin1String("MD4");
+    QString computeResult = QString(), hashAlgorithm = QLatin1String("MD5");
     quint32 computeProgress = 0;
     bool shouldStop = false;
 };

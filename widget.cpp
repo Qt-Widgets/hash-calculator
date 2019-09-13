@@ -1,6 +1,5 @@
 #include "widget.h"
 #include "./ui_widget.h"
-#include <QDebug>
 #include <QDir>
 #include <QDragEnterEvent>
 #include <QDropEvent>
@@ -9,6 +8,7 @@
 #include <QMessageBox>
 #include <QMimeData>
 #include <QUrl>
+#include <QtConcurrent>
 #ifdef Q_OS_WINDOWS
 #include <QWinTaskbarButton>
 #include <QWinTaskbarProgress>
@@ -17,6 +17,9 @@
 Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
     ui->setupUi(this);
     hashCalculator.moveToThread(&thread);
+    // FIXME: Use function pointer.
+    connect(&futureWatcher, SIGNAL(finished()), this,
+            SLOT(handleDirSearching()));
     connect(ui->pushButton_open_file, &QPushButton::clicked, this, [this] {
         if (checkAlgorithmList()) {
             const QStringList list = QFileDialog::getOpenFileNames(
@@ -31,10 +34,9 @@ Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
             const QString path = QFileDialog::getExistingDirectory(
                 this, tr("Please select a folder"));
             if (!path.isEmpty()) {
-                QStringList list = getFolderContents(path);
-                if (!list.isEmpty()) {
-                    setFileList(list);
-                }
+                QFuture<QStringList> future = QtConcurrent::run(
+                    [=]() -> QStringList { return getFolderContents(path); });
+                futureWatcher.setFuture(future);
             }
         }
     });
@@ -131,9 +133,25 @@ Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
 
 Widget::~Widget() {
     delete ui;
+    ui = nullptr;
+    futureWatcherCanceled = true;
+    if (futureWatcher.isRunning()) {
+        futureWatcher.cancel();
+        futureWatcher.waitForFinished();
+    }
     hashCalculator.stop();
     thread.quit();
     thread.wait();
+}
+
+void Widget::handleDirSearching() {
+    if (futureWatcherCanceled) {
+        return;
+    }
+    const QStringList list = futureWatcher.result();
+    if (!list.isEmpty()) {
+        setFileList(list);
+    }
 }
 
 void Widget::dragEnterEvent(QDragEnterEvent *event) {
@@ -147,12 +165,12 @@ void Widget::dragEnterEvent(QDragEnterEvent *event) {
     }
     const bool ok = checkAlgorithmList(false);
     if (!ok) {
-        qDebug().noquote() << "The drag & drop event was ignored due to no "
-                              "hash algorithms were selected.";
+        ui->textEdit_log->append(
+            tr("<font color=\"red\"><b>WARNING: The drag & drop event was "
+               "ignored due to no hash algorithms were selected.</b></font>"));
         event->ignore();
         return;
     }
-    // event->accept();
     event->acceptProposedAction();
 }
 
@@ -190,7 +208,6 @@ void Widget::dropEvent(QDropEvent *event) {
         return;
     }
     setFileList(list);
-    // event->accept();
     event->acceptProposedAction();
 }
 
@@ -291,7 +308,7 @@ QStringList Widget::getFolderContents(const QString &folderPath) const {
     if (fileInfoList.isEmpty() && folderInfoList.isEmpty()) {
         return {};
     }
-    QStringList stringList{};
+    QStringList stringList = {};
     if (!fileInfoList.isEmpty()) {
         for (const auto &fileInfo : fileInfoList) {
             stringList.append(QDir::toNativeSeparators(

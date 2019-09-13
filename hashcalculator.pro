@@ -1,7 +1,7 @@
 TEMPLATE = app
 TARGET = $$qtLibraryTarget(hashcalculator)
 DESTDIR = bin
-QT += gui widgets
+QT += gui widgets concurrent
 win32: QT += winextras
 HEADERS += $$files(*.h)
 SOURCES += $$files(*.cpp)
@@ -12,7 +12,12 @@ TRANSLATIONS += \
 CONFIG += lrelease embed_translations
 win32 {
     RC_FILE = hashcalculator.rc
-    shared: CONFIG += windeployqt
+    shared {
+        WINDEPLOYQT_OPTIONS = \
+            --force --no-translations --no-system-d3d-compiler \
+            --no-compiler-runtime --no-angle --no-opengl-sw
+        CONFIG += windeployqt
+    }
 }
 unix: RESOURCES += hashcalculator.qrc
 static {

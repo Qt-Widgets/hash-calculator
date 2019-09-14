@@ -26,11 +26,7 @@ Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
             const auto list = QFileDialog::getOpenFileNames(
                 this, tr("Please select a file(s)"));
             if (!list.isEmpty()) {
-                QVector<QString> _list = {};
-                for (const auto &value : list) {
-                    _list.append(value);
-                }
-                setFileList(_list);
+                setFileList(list2vector(list));
             }
         }
     });
@@ -337,7 +333,7 @@ void Widget::handleDirSearching() {
         ui->pushButton_import->setEnabled(true);
         ui->pushButton_export->setEnabled(true);
     } else {
-        setFileList(list);
+        setFileList(list2vector(list));
     }
 }
 
@@ -397,7 +393,7 @@ void Widget::dropEvent(QDropEvent *event) {
         event->ignore();
         return;
     }
-    setFileList(list);
+    setFileList(list2vector(list));
     event->acceptProposedAction();
 }
 
@@ -494,17 +490,6 @@ void Widget::setFileList(const PairStringList &list) {
     isComputing = true;
     Q_EMIT started(count);
     computeFileHash(fileList.constLast());
-}
-
-void Widget::setFileList(const QVector<QString> &list) {
-    if (list.isEmpty()) {
-        return;
-    }
-    PairStringList _list = {};
-    for (const auto &value : list) {
-        _list.append(qMakePair(value, QString()));
-    }
-    setFileList(_list);
 }
 
 QVector<QString> Widget::getFolderContents(const QString &folderPath) const {
@@ -604,7 +589,8 @@ bool Widget::checkAlgorithmListLess(bool showUI) {
                                  tr("You should select a hash algorithm."));
         }
         return false;
-    } else if (count > 1) {
+    }
+    if (count > 1) {
         if (showUI) {
             QMessageBox::warning(
                 this, tr("Too many algorithms"),
@@ -667,4 +653,26 @@ void Widget::generateHashFile(const QString &fileNameTemplate) {
     QMessageBox::information(
         this, tr("Done"),
         tr("All hash values have been written to file(s), please check."));
+}
+
+Widget::PairStringList Widget::list2vector(const QStringList &list) const {
+    if (list.isEmpty()) {
+        return {};
+    }
+    QVector<QString> _list = {};
+    for (const auto &value : list) {
+        _list.append(value);
+    }
+    return list2vector(_list);
+}
+
+Widget::PairStringList Widget::list2vector(const QVector<QString> &list) const {
+    if (list.isEmpty()) {
+        return {};
+    }
+    PairStringList _list = {};
+    for (const auto &value : list) {
+        _list.append(qMakePair(value, QString()));
+    }
+    return _list;
 }

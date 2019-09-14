@@ -65,11 +65,11 @@ void HashCalculator::compute() {
         }
         targetFile.close();
         computeResult = QLatin1String(cryptographicHash.result().toHex());
-        Q_EMIT hashChanged(
-            _filePath, hashAlgorithm, computeResult.toLower(),
-            targetHashValue.isEmpty()
-                ? true
-                : (targetHashValue.toLower() == computeResult.toLower()));
+        computeResult = computeResult.toLower();
+        Q_EMIT hashChanged(_filePath, hashAlgorithm, computeResult,
+                           targetHashValue.isEmpty()
+                               ? true
+                               : (targetHashValue == computeResult));
     }
     Q_EMIT finished(_filePath);
 }
@@ -134,7 +134,7 @@ QCryptographicHash::Algorithm HashCalculator::str2enum(const QString &string) {
     return QCryptographicHash::Algorithm::Md4;
 }
 
-QString HashCalculator::hash() const { return computeResult.toLower(); }
+QString HashCalculator::hash() const { return computeResult; }
 
 QString HashCalculator::file() const {
     return QDir::toNativeSeparators(targetFile.fileName());

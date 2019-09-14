@@ -43,13 +43,14 @@ protected:
 private:
     void computeFileHash(const QPair<QString, QString> &targetFile);
     void setFileList(const PairStringList &list);
-    void setFileList(const QVector<QString> &list);
     [[nodiscard]] QVector<QString>
     getFolderContents(const QString &folderPath) const;
     void refreshAlgorithmList();
     bool checkAlgorithmListMore(bool showUI = true);
     bool checkAlgorithmListLess(bool showUI = true);
     void generateHashFile(const QString &fileNameTemplate);
+    PairStringList list2vector(const QStringList &list) const;
+    PairStringList list2vector(const QVector<QString> &list) const;
 
 private:
     Ui::Widget *ui = nullptr;

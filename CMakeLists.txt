@@ -24,7 +24,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY bin CACHE STRING "")
 
-find_package(Qt5 COMPONENTS Widgets REQUIRED)
+find_package(Qt5 COMPONENTS Widgets Concurrent REQUIRED)
 
 if(WIN32)
     find_package(Qt5 COMPONENTS WinExtras REQUIRED)
@@ -54,7 +54,7 @@ if(WIN32 AND NOT "${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
     add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND ${DEPLOYQT_EXECUTABLE} --force --no-translations --no-system-d3d-compiler --no-compiler-runtime --no-angle --no-opengl-sw "$<TARGET_FILE:${PROJECT_NAME}>")
 endif()
 
-target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Widgets)
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Widgets Qt5::Concurrent)
 
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::WinExtras)

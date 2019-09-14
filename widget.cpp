@@ -7,6 +7,7 @@
 #include <QFileInfo>
 #include <QMessageBox>
 #include <QMimeData>
+#include <QRegularExpression>
 #include <QTextStream>
 #include <QUrl>
 #include <QtConcurrent>
@@ -256,10 +257,8 @@ void Widget::verifyHashFile(const QString &filePath,
     }
     bool checked = !fromCmd;
     if (fromCmd) {
-        const QString _algorithm =
-            algorithmName.toLower()
-                .replace(QLatin1Char('-'), QLatin1Char('_'))
-                .remove(QLatin1Char('_'));
+        const QString _algorithm = algorithmName.toLower().remove(
+            QRegularExpression(QLatin1String("(-|_)+")));
         ui->checkBox_md4->setChecked(_algorithm == QLatin1String("md4"));
         ui->checkBox_md5->setChecked(_algorithm == QLatin1String("md5"));
         ui->checkBox_sha1->setChecked(_algorithm == QLatin1String("sha1"));

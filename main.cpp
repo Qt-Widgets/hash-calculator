@@ -60,11 +60,8 @@ int main(int argc, char *argv[]) {
 #endif
     widget.show();
     if (!hashFilePath.isEmpty() && !hashAlgorithm.isEmpty()) {
-        const QFileInfo fileInfo(hashFilePath);
-        const QString path = fileInfo.isSymLink()
-            ? fileInfo.symLinkTarget()
-            : fileInfo.canonicalFilePath();
-        if (!QFileInfo::exists(path) || !QFileInfo(path).isFile()) {
+        if (!QFileInfo::exists(hashFilePath) ||
+            !QFileInfo(hashFilePath).isFile()) {
             QMessageBox::critical(
                 &widget,
                 QCoreApplication::translate("main", "Invalid hash file"),
@@ -72,9 +69,7 @@ int main(int argc, char *argv[]) {
                                             "The hash file you choose does not "
                                             "exist or is not a file."));
         } else {
-            const QString algorithm = hashAlgorithm.toLower().replace(
-                QLatin1Char('-'), QLatin1Char('_'));
-            widget.verifyHashFile(path, algorithm, true);
+            widget.verifyHashFile(hashFilePath, hashAlgorithm, true);
         }
     }
     return QApplication::exec();

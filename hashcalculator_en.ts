@@ -201,13 +201,13 @@
     </message>
     <message>
         <location filename="widget.cpp" line="292"/>
-        <location filename="widget.cpp" line="632"/>
+        <location filename="widget.cpp" line="633"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="widget.cpp" line="293"/>
-        <location filename="widget.cpp" line="633"/>
+        <location filename="widget.cpp" line="634"/>
         <source>Failed to open file: &quot;%1&quot;!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -222,38 +222,38 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="575"/>
-        <location filename="widget.cpp" line="588"/>
+        <location filename="widget.cpp" line="576"/>
+        <location filename="widget.cpp" line="589"/>
         <source>No algorithms selected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="576"/>
+        <location filename="widget.cpp" line="577"/>
         <source>You should select at least one hash algorithm.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="589"/>
+        <location filename="widget.cpp" line="590"/>
         <source>You should select a hash algorithm.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="596"/>
+        <location filename="widget.cpp" line="597"/>
         <source>Too many algorithms</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="597"/>
+        <location filename="widget.cpp" line="598"/>
         <source>You can only select one hash algorithm in this mode.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="654"/>
+        <location filename="widget.cpp" line="655"/>
         <source>Done</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="655"/>
+        <location filename="widget.cpp" line="656"/>
         <source>All hash values have been written to file(s), please check.</source>
         <translation type="unfinished"></translation>
     </message>

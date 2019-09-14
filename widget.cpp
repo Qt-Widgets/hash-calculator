@@ -373,19 +373,17 @@ void Widget::dropEvent(QDropEvent *event) {
     QVector<QString> list;
     for (const auto &url : urls) {
         if (url.isLocalFile()) {
-            const QString path = url.toLocalFile();
-            const QFileInfo fileInfo(path);
+            const QFileInfo fileInfo(url.toLocalFile());
+            const QString path = fileInfo.isSymLink()
+                ? fileInfo.symLinkTarget()
+                : fileInfo.canonicalFilePath();
             if (fileInfo.isDir()) {
-                const QVector<QString> folderContents = getFolderContents(
-                    fileInfo.isSymLink() ? fileInfo.symLinkTarget()
-                                         : fileInfo.canonicalFilePath());
+                const QVector<QString> folderContents = getFolderContents(path);
                 if (!folderContents.isEmpty()) {
                     list.append(folderContents);
                 }
             } else if (fileInfo.isFile()) {
-                list.append(fileInfo.isSymLink()
-                                ? fileInfo.symLinkTarget()
-                                : fileInfo.canonicalFilePath());
+                list.append(path);
             }
         }
     }
@@ -451,12 +449,15 @@ void Widget::showEvent(QShowEvent *event) {
 
 void Widget::computeFileHash(const QPair<QString, QString> &targetFile) {
     const QString path = targetFile.first;
-    if (path.isEmpty() || !QFileInfo::exists(path)) {
+    const QFileInfo fileInfo(path);
+    if (path.isEmpty() || !QFileInfo::exists(path) || !fileInfo.isFile()) {
         return;
     }
     hashCalculator.reset();
     hashCalculator.setAlgorithmList(algorithmList);
-    hashCalculator.setFile(targetFile.first, targetFile.second);
+    hashCalculator.setFile(fileInfo.isSymLink() ? fileInfo.symLinkTarget()
+                                                : fileInfo.canonicalFilePath(),
+                           targetFile.second);
     Q_EMIT hashCalculator.startComputing();
 }
 

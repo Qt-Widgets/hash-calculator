@@ -1,6 +1,7 @@
 #include "hashcalculator.h"
 #include <QDebug>
 #include <QDir>
+#include <QFileInfo>
 
 HashCalculator::HashCalculator(QObject *parent) : QObject(parent) {
     connect(this, &HashCalculator::startComputing, this,
@@ -12,7 +13,8 @@ void HashCalculator::setFile(const QString &path, const QString &targetHash) {
         QDir::toNativeSeparators(targetFile.fileName())) {
         return;
     }
-    if (path.isEmpty() || !QFile::exists(path)) {
+    if (path.isEmpty() || !QFileInfo::exists(path) ||
+        !QFileInfo(path).isFile()) {
         qWarning().noquote() << "Path is empty or file does not exist.";
         return;
     }

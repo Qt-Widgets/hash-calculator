@@ -201,13 +201,13 @@
     </message>
     <message>
         <location filename="widget.cpp" line="292"/>
-        <location filename="widget.cpp" line="632"/>
+        <location filename="widget.cpp" line="633"/>
         <source>Error</source>
         <translation>错误</translation>
     </message>
     <message>
         <location filename="widget.cpp" line="293"/>
-        <location filename="widget.cpp" line="633"/>
+        <location filename="widget.cpp" line="634"/>
         <source>Failed to open file: &quot;%1&quot;!</source>
         <translation>无法打开文件：&quot;%1&quot;！</translation>
     </message>
@@ -222,38 +222,38 @@
         <translation>&lt;font color=&quot;red&quot;&gt;&lt;b&gt;警告：因为没有选择哈希算法，所以拖放事件已被忽略。&lt;/b&gt;&lt;/font&gt;</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="575"/>
-        <location filename="widget.cpp" line="588"/>
+        <location filename="widget.cpp" line="576"/>
+        <location filename="widget.cpp" line="589"/>
         <source>No algorithms selected</source>
         <translation>没有选择算法</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="576"/>
+        <location filename="widget.cpp" line="577"/>
         <source>You should select at least one hash algorithm.</source>
         <translation>您应该选择至少一个哈希算法。</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="589"/>
+        <location filename="widget.cpp" line="590"/>
         <source>You should select a hash algorithm.</source>
         <translation>您应该选择一个哈希算法。</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="596"/>
+        <location filename="widget.cpp" line="597"/>
         <source>Too many algorithms</source>
         <translation>算法过多</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="597"/>
+        <location filename="widget.cpp" line="598"/>
         <source>You can only select one hash algorithm in this mode.</source>
         <translation>在这个模式下，您能且只能选择一个哈希算法。</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="654"/>
+        <location filename="widget.cpp" line="655"/>
         <source>Done</source>
         <translation>已完成</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="655"/>
+        <location filename="widget.cpp" line="656"/>
         <source>All hash values have been written to file(s), please check.</source>
         <translation>所有哈希值均已被写入到文件中，请检查。</translation>
     </message>

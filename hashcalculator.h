@@ -3,6 +3,7 @@
 #include <QCryptographicHash>
 #include <QFile>
 #include <QObject>
+#include <QVector>
 
 class HashCalculator : public QObject {
     Q_OBJECT
@@ -10,19 +11,19 @@ class HashCalculator : public QObject {
     Q_PROPERTY(QString file READ file WRITE setFile NOTIFY fileChanged)
     Q_PROPERTY(QString hash READ hash NOTIFY hashChanged)
     Q_PROPERTY(quint32 progress READ progress NOTIFY progressChanged)
-    Q_PROPERTY(QStringList algorithmList READ algorithmList WRITE
+    Q_PROPERTY(QVector<QString> algorithmList READ algorithmList WRITE
                    setAlgorithmList NOTIFY algorithmListChanged)
 
 Q_SIGNALS:
     void fileChanged(const QString &);
-    void hashChanged(const QString &, const QString &);
+    void hashChanged(const QString &, const QString &, const QString &, bool);
     void progressChanged(quint32);
-    void algorithmListChanged(const QStringList &);
+    void algorithmListChanged(const QVector<QString> &);
 
     // Emitted when computing just started
-    void started();
+    void started(const QString &);
     // Emitted when computing just finished
-    void finished();
+    void finished(const QString &);
 
     // Emit this signal = call compute()
     void startComputing();
@@ -31,14 +32,14 @@ public:
     explicit HashCalculator(QObject *parent = nullptr);
 
     [[nodiscard]] QString file() const;
-    void setFile(const QString &path);
+    void setFile(const QString &path, const QString &targetHash = QString());
 
     [[nodiscard]] QString hash() const;
 
     [[nodiscard]] quint32 progress() const;
 
-    [[nodiscard]] QStringList algorithmList() const;
-    void setAlgorithmList(const QStringList &list);
+    [[nodiscard]] QVector<QString> algorithmList() const;
+    void setAlgorithmList(const QVector<QString> &list);
 
     [[nodiscard]] QString currentAlgorithm() const;
 
@@ -50,10 +51,11 @@ private:
     QCryptographicHash::Algorithm str2enum(const QString &string);
 
 private:
-    QStringList hashAlgorithmList = {QLatin1String("MD5"),
-                                     QLatin1String("SHA-256")};
+    QVector<QString> hashAlgorithmList = {QLatin1String("MD5"),
+                                          QLatin1String("SHA-256")};
     QFile targetFile;
-    QString computeResult = QString(), hashAlgorithm = QLatin1String("MD5");
+    QString computeResult = QString(), hashAlgorithm = QLatin1String("MD5"),
+            targetHashValue = QString();
     quint32 computeProgress = 0;
     bool shouldStop = false;
 };

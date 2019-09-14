@@ -2,7 +2,9 @@
 #include <QApplication>
 #include <QCommandLineOption>
 #include <QCommandLineParser>
+#include <QFileInfo>
 #include <QFont>
+#include <QMessageBox>
 #include <QTranslator>
 #ifndef Q_OS_WINDOWS
 #include <QIcon>
@@ -12,6 +14,7 @@ int main(int argc, char *argv[]) {
     // Force Qt to use desktop OpenGL to avoid depending on ANGLE libraries.
     QCoreApplication::setAttribute(Qt::AA_UseDesktopOpenGL);
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
     QApplication application(argc, argv);
     QCoreApplication::setApplicationName(QLatin1String("Hash Calculator"));
 #ifndef Q_OS_WINDOWS
@@ -33,17 +36,46 @@ int main(int argc, char *argv[]) {
         "main", "A simple tool to compute hash value for files."));
     commandLineParser.addHelpOption();
     commandLineParser.addVersionOption();
-    commandLineParser.addPositionalArgument(
-        QLatin1String("algorithms"),
-        QCoreApplication::translate("main", "Hash algorithms."));
-    commandLineParser.addPositionalArgument(
-        QLatin1String("files"),
-        QCoreApplication::translate("main", "Files to be processed."));
+    const QCommandLineOption hashFileOption(
+        QLatin1String("hash-file"),
+        QCoreApplication::translate(
+            "main", "Verify all files listed in the given <hash file>."),
+        QCoreApplication::translate("main", "hash file"));
+    commandLineParser.addOption(hashFileOption);
+    const QCommandLineOption hashAlgorithmOption(
+        QLatin1String("algorithm"),
+        QCoreApplication::translate(
+            "main",
+            "Use the given <hash algorithm> to verify the given files."),
+        QCoreApplication::translate("main", "hash algorithm"));
+    commandLineParser.addOption(hashAlgorithmOption);
     commandLineParser.process(application);
+    const QString hashFilePath =
+        commandLineParser.value(hashFileOption).trimmed();
+    const QString hashAlgorithm =
+        commandLineParser.value(hashAlgorithmOption).trimmed();
     Widget widget;
 #ifndef Q_OS_WINDOWS
     widget.setWindowIcon(QIcon(QLatin1String(":/hashcalculator.svg")));
 #endif
     widget.show();
+    if (!hashFilePath.isEmpty() && !hashAlgorithm.isEmpty()) {
+        const QFileInfo fileInfo(hashFilePath);
+        const QString path = fileInfo.isSymLink()
+            ? fileInfo.symLinkTarget()
+            : fileInfo.canonicalFilePath();
+        if (!QFileInfo::exists(path) || !QFileInfo(path).isFile()) {
+            QMessageBox::critical(
+                &widget,
+                QCoreApplication::translate("main", "Invalid hash file"),
+                QCoreApplication::translate("main",
+                                            "The hash file you choose does not "
+                                            "exist or is not a file."));
+        } else {
+            const QString algorithm = hashAlgorithm.toLower().replace(
+                QLatin1Char('-'), QLatin1Char('_'));
+            widget.verifyHashFile(path, algorithm, true);
+        }
+    }
     return QApplication::exec();
 }

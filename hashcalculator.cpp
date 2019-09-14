@@ -7,7 +7,7 @@ HashCalculator::HashCalculator(QObject *parent) : QObject(parent) {
             &HashCalculator::compute);
 }
 
-void HashCalculator::setFile(const QString &path) {
+void HashCalculator::setFile(const QString &path, const QString &targetHash) {
     if (QDir::toNativeSeparators(path) ==
         QDir::toNativeSeparators(targetFile.fileName())) {
         return;
@@ -15,6 +15,9 @@ void HashCalculator::setFile(const QString &path) {
     if (path.isEmpty() || !QFile::exists(path)) {
         qWarning().noquote() << "Path is empty or file does not exist.";
         return;
+    }
+    if (!targetHash.isEmpty()) {
+        targetHashValue = targetHash.toLower();
     }
     if (targetFile.isOpen()) {
         targetFile.close();
@@ -35,7 +38,8 @@ void HashCalculator::compute() {
     if (targetFile.isOpen()) {
         targetFile.close();
     }
-    Q_EMIT started();
+    const QString _filePath = file();
+    Q_EMIT started(_filePath);
     for (const auto &algorithmString : qAsConst(hashAlgorithmList)) {
         if (shouldStop) {
             return;
@@ -61,12 +65,17 @@ void HashCalculator::compute() {
         }
         targetFile.close();
         computeResult = QLatin1String(cryptographicHash.result().toHex());
-        Q_EMIT hashChanged(hashAlgorithm, computeResult);
+        Q_EMIT hashChanged(
+            _filePath, hashAlgorithm, computeResult.toLower(),
+            targetHashValue.isEmpty()
+                ? true
+                : (targetHashValue.toLower() == computeResult.toLower()));
     }
-    Q_EMIT finished();
+    Q_EMIT finished(_filePath);
 }
 
 void HashCalculator::reset() {
+    targetHashValue.clear();
     if (targetFile.isOpen()) {
         targetFile.close();
     }
@@ -74,13 +83,13 @@ void HashCalculator::reset() {
     if (!hashAlgorithmList.isEmpty()) {
         hashAlgorithmList.clear();
     }
-    hashAlgorithmList.append(QLatin1String("MD4"));
+    hashAlgorithmList << QLatin1String("MD5") << QLatin1String("SHA-256");
     Q_EMIT algorithmListChanged(hashAlgorithmList);
     computeProgress = 0;
     Q_EMIT progressChanged(0);
     computeResult.clear();
-    Q_EMIT hashChanged(QString(), QString());
-    hashAlgorithm = QLatin1String("MD4");
+    Q_EMIT hashChanged(QString(), QString(), QString(), false);
+    hashAlgorithm = QLatin1String("MD5");
     shouldStop = false;
 }
 
@@ -125,7 +134,7 @@ QCryptographicHash::Algorithm HashCalculator::str2enum(const QString &string) {
     return QCryptographicHash::Algorithm::Md4;
 }
 
-QString HashCalculator::hash() const { return computeResult; }
+QString HashCalculator::hash() const { return computeResult.toLower(); }
 
 QString HashCalculator::file() const {
     return QDir::toNativeSeparators(targetFile.fileName());
@@ -133,9 +142,11 @@ QString HashCalculator::file() const {
 
 quint32 HashCalculator::progress() const { return computeProgress; }
 
-QStringList HashCalculator::algorithmList() const { return hashAlgorithmList; }
+QVector<QString> HashCalculator::algorithmList() const {
+    return hashAlgorithmList;
+}
 
-void HashCalculator::setAlgorithmList(const QStringList &list) {
+void HashCalculator::setAlgorithmList(const QVector<QString> &list) {
     if (list.isEmpty()) {
         return;
     }

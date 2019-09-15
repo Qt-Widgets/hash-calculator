@@ -127,6 +127,8 @@ Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
     });
     connect(ui->pushButton_about_qt, &QPushButton::clicked, qApp,
             &QApplication::aboutQt);
+    connect(ui->lineEdit_hash, &QLineEdit::returnPressed,
+            ui->pushButton_compare, &QPushButton::clicked);
     connect(&hashCalculator, &HashCalculator::fileChanged, this,
             [](const QString &_path) { Q_UNUSED(_path) });
     connect(&hashCalculator, &HashCalculator::algorithmListChanged, this,

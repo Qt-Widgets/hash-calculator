@@ -202,49 +202,49 @@
      <item>
       <widget class="QPushButton" name="pushButton_open_file">
        <property name="text">
-        <string>Open file</string>
+        <string>&amp;Open file</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="pushButton_open_folder">
        <property name="text">
-        <string>Open folder</string>
+        <string>O&amp;pen folder</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="pushButton_clear">
        <property name="text">
-        <string>Clear</string>
+        <string>&amp;Clear</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="pushButton_compare">
        <property name="text">
-        <string>Compare</string>
+        <string>Co&amp;mpare</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="pushButton_import">
        <property name="text">
-        <string>Import</string>
+        <string>&amp;Import</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="pushButton_export">
        <property name="text">
-        <string>Export</string>
+        <string>&amp;Export</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="pushButton_about_qt">
        <property name="text">
-        <string>About Qt</string>
+        <string>&amp;About Qt</string>
        </property>
       </widget>
      </item>

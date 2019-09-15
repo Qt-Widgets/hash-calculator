@@ -91,38 +91,38 @@
     </message>
     <message>
         <location filename="widget.ui" line="205"/>
-        <source>Open file</source>
-        <translation>打开文件</translation>
+        <source>&amp;Open file</source>
+        <translation>打开文件(&amp;O)</translation>
     </message>
     <message>
         <location filename="widget.ui" line="212"/>
-        <source>Open folder</source>
-        <translation>打开文件夹</translation>
+        <source>O&amp;pen folder</source>
+        <translation>打开文件夹(&amp;P)</translation>
     </message>
     <message>
         <location filename="widget.ui" line="219"/>
-        <source>Clear</source>
-        <translation>清空</translation>
+        <source>&amp;Clear</source>
+        <translation>清空(&amp;C)</translation>
     </message>
     <message>
         <location filename="widget.ui" line="226"/>
-        <source>Compare</source>
-        <translation>对比</translation>
+        <source>Co&amp;mpare</source>
+        <translation>对比(&amp;M)</translation>
     </message>
     <message>
         <location filename="widget.ui" line="233"/>
-        <source>Import</source>
-        <translation>导入</translation>
+        <source>&amp;Import</source>
+        <translation>导入(&amp;I)</translation>
     </message>
     <message>
         <location filename="widget.ui" line="240"/>
-        <source>Export</source>
-        <translation>导出</translation>
+        <source>&amp;Export</source>
+        <translation>导出(&amp;E)</translation>
     </message>
     <message>
         <location filename="widget.ui" line="247"/>
-        <source>About Qt</source>
-        <translation>关于 Qt</translation>
+        <source>&amp;About Qt</source>
+        <translation>关于 Qt(&amp;A)</translation>
     </message>
     <message>
         <location filename="widget.cpp" line="28"/>
@@ -175,85 +175,85 @@
         <translation>保存哈希文件</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="144"/>
+        <location filename="widget.cpp" line="146"/>
         <source>&lt;font color=&quot;green&quot;&gt;&lt;b&gt;[VERIFIED]&lt;/b&gt;&lt;/font&gt;: &quot;%1&quot;</source>
         <translation>&lt;font color=&quot;green&quot;&gt;&lt;b&gt;【验证通过】&lt;/b&gt;&lt;/font&gt;：&quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="150"/>
+        <location filename="widget.cpp" line="152"/>
         <source>&lt;font color=&quot;red&quot;&gt;&lt;b&gt;[UNMATCHED]&lt;/b&gt;&lt;/font&gt;: &quot;%1&quot;</source>
         <translation>&lt;font color=&quot;red&quot;&gt;&lt;b&gt;【不匹配】&lt;/b&gt;&lt;/font&gt;：&quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="154"/>
+        <location filename="widget.cpp" line="156"/>
         <source>&lt;font color=&quot;blue&quot;&gt;&lt;b&gt;File %1&lt;/b&gt;&lt;/font&gt;: %2</source>
         <translation>&lt;font color=&quot;blue&quot;&gt;&lt;b&gt;文件 %1&lt;/b&gt;&lt;/font&gt;：%2</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="159"/>
+        <location filename="widget.cpp" line="161"/>
         <source>&lt;font color=&quot;#287CE5&quot;&gt;&lt;b&gt;File %1&lt;/b&gt;&lt;/font&gt;: %2</source>
         <translation>&lt;font color=&quot;#287CE5&quot;&gt;&lt;b&gt;文件 %1&lt;/b&gt;&lt;/font&gt;：%2</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="200"/>
+        <location filename="widget.cpp" line="202"/>
         <source>&lt;font color=&quot;red&quot;&gt;&lt;b&gt;File path&lt;/b&gt;&lt;/font&gt;: &quot;%1&quot;</source>
         <translation>&lt;font color=&quot;red&quot;&gt;&lt;b&gt;文件路径&lt;/b&gt;&lt;/font&gt;：&quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="291"/>
-        <location filename="widget.cpp" line="632"/>
+        <location filename="widget.cpp" line="293"/>
+        <location filename="widget.cpp" line="634"/>
         <source>Error</source>
         <translation>错误</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="292"/>
-        <location filename="widget.cpp" line="633"/>
+        <location filename="widget.cpp" line="294"/>
+        <location filename="widget.cpp" line="635"/>
         <source>Failed to open file: &quot;%1&quot;!</source>
         <translation>无法打开文件：&quot;%1&quot;！</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="342"/>
+        <location filename="widget.cpp" line="344"/>
         <source>&lt;font color=&quot;red&quot;&gt;&lt;b&gt;WARNING: The drag &amp; drop event was ignored due to the computing process is running.&lt;/b&gt;&lt;/font&gt;</source>
         <translation>&lt;font color=&quot;red&quot;&gt;&lt;b&gt;警告：因为正在进行计算，所以拖放事件已被忽略。&lt;/b&gt;&lt;/font&gt;</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="354"/>
+        <location filename="widget.cpp" line="356"/>
         <source>&lt;font color=&quot;red&quot;&gt;&lt;b&gt;WARNING: The drag &amp; drop event was ignored due to no hash algorithms were selected.&lt;/b&gt;&lt;/font&gt;</source>
         <translation>&lt;font color=&quot;red&quot;&gt;&lt;b&gt;警告：因为没有选择哈希算法，所以拖放事件已被忽略。&lt;/b&gt;&lt;/font&gt;</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="575"/>
-        <location filename="widget.cpp" line="588"/>
+        <location filename="widget.cpp" line="577"/>
+        <location filename="widget.cpp" line="590"/>
         <source>No algorithms selected</source>
         <translation>没有选择算法</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="576"/>
+        <location filename="widget.cpp" line="578"/>
         <source>You should select at least one hash algorithm.</source>
         <translation>您应该选择至少一个哈希算法。</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="589"/>
+        <location filename="widget.cpp" line="591"/>
         <source>You should select a hash algorithm.</source>
         <translation>您应该选择一个哈希算法。</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="596"/>
+        <location filename="widget.cpp" line="598"/>
         <source>Too many algorithms</source>
         <translation>算法过多</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="597"/>
+        <location filename="widget.cpp" line="599"/>
         <source>You can only select one hash algorithm in this mode.</source>
         <translation>在这个模式下，您能且只能选择一个哈希算法。</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="654"/>
+        <location filename="widget.cpp" line="656"/>
         <source>Done</source>
         <translation>已完成</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="655"/>
+        <location filename="widget.cpp" line="657"/>
         <source>All hash values have been written to file(s), please check.</source>
         <translation>所有哈希值均已被写入到文件中，请检查。</translation>
     </message>

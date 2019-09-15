@@ -91,37 +91,37 @@
     </message>
     <message>
         <location filename="widget.ui" line="205"/>
-        <source>Open file</source>
+        <source>&amp;Open file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="widget.ui" line="212"/>
-        <source>Open folder</source>
+        <source>O&amp;pen folder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="widget.ui" line="219"/>
-        <source>Clear</source>
+        <source>&amp;Clear</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="widget.ui" line="226"/>
-        <source>Compare</source>
+        <source>Co&amp;mpare</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="widget.ui" line="233"/>
-        <source>Import</source>
+        <source>&amp;Import</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="widget.ui" line="240"/>
-        <source>Export</source>
+        <source>&amp;Export</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="widget.ui" line="247"/>
-        <source>About Qt</source>
+        <source>&amp;About Qt</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -175,85 +175,85 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="144"/>
+        <location filename="widget.cpp" line="146"/>
         <source>&lt;font color=&quot;green&quot;&gt;&lt;b&gt;[VERIFIED]&lt;/b&gt;&lt;/font&gt;: &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="150"/>
+        <location filename="widget.cpp" line="152"/>
         <source>&lt;font color=&quot;red&quot;&gt;&lt;b&gt;[UNMATCHED]&lt;/b&gt;&lt;/font&gt;: &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="154"/>
+        <location filename="widget.cpp" line="156"/>
         <source>&lt;font color=&quot;blue&quot;&gt;&lt;b&gt;File %1&lt;/b&gt;&lt;/font&gt;: %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="159"/>
+        <location filename="widget.cpp" line="161"/>
         <source>&lt;font color=&quot;#287CE5&quot;&gt;&lt;b&gt;File %1&lt;/b&gt;&lt;/font&gt;: %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="200"/>
+        <location filename="widget.cpp" line="202"/>
         <source>&lt;font color=&quot;red&quot;&gt;&lt;b&gt;File path&lt;/b&gt;&lt;/font&gt;: &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="291"/>
-        <location filename="widget.cpp" line="632"/>
+        <location filename="widget.cpp" line="293"/>
+        <location filename="widget.cpp" line="634"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="292"/>
-        <location filename="widget.cpp" line="633"/>
+        <location filename="widget.cpp" line="294"/>
+        <location filename="widget.cpp" line="635"/>
         <source>Failed to open file: &quot;%1&quot;!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="342"/>
+        <location filename="widget.cpp" line="344"/>
         <source>&lt;font color=&quot;red&quot;&gt;&lt;b&gt;WARNING: The drag &amp; drop event was ignored due to the computing process is running.&lt;/b&gt;&lt;/font&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="354"/>
+        <location filename="widget.cpp" line="356"/>
         <source>&lt;font color=&quot;red&quot;&gt;&lt;b&gt;WARNING: The drag &amp; drop event was ignored due to no hash algorithms were selected.&lt;/b&gt;&lt;/font&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="575"/>
-        <location filename="widget.cpp" line="588"/>
+        <location filename="widget.cpp" line="577"/>
+        <location filename="widget.cpp" line="590"/>
         <source>No algorithms selected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="576"/>
+        <location filename="widget.cpp" line="578"/>
         <source>You should select at least one hash algorithm.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="589"/>
+        <location filename="widget.cpp" line="591"/>
         <source>You should select a hash algorithm.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="596"/>
+        <location filename="widget.cpp" line="598"/>
         <source>Too many algorithms</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="597"/>
+        <location filename="widget.cpp" line="599"/>
         <source>You can only select one hash algorithm in this mode.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="654"/>
+        <location filename="widget.cpp" line="656"/>
         <source>Done</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="655"/>
+        <location filename="widget.cpp" line="657"/>
         <source>All hash values have been written to file(s), please check.</source>
         <translation type="unfinished"></translation>
     </message>

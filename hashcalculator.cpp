@@ -15,7 +15,9 @@ void HashCalculator::setFile(const QString &path, const QString &targetHash) {
     }
     if (path.isEmpty() || !QFileInfo::exists(path) ||
         !QFileInfo(path).isFile()) {
-        qWarning().noquote() << "Path is empty or file does not exist.";
+        qWarning().noquote()
+            << "Path is empty or file does not exist or path is not a file:"
+            << path;
         return;
     }
     if (!targetHash.isEmpty()) {
@@ -99,10 +101,13 @@ void HashCalculator::stop() { shouldStop = true; }
 
 QCryptographicHash::Algorithm HashCalculator::str2enum(const QString &string) {
     if (string.isEmpty()) {
-        return QCryptographicHash::Algorithm::Md4;
+        return QCryptographicHash::Algorithm::Md5;
     }
     const QString algorithm =
         string.toLower().replace(QLatin1Char('-'), QLatin1Char('_'));
+    if (algorithm == QLatin1String("md4")) {
+        return QCryptographicHash::Algorithm::Md4;
+    }
     if (algorithm == QLatin1String("md5")) {
         return QCryptographicHash::Algorithm::Md5;
     }
@@ -133,7 +138,7 @@ QCryptographicHash::Algorithm HashCalculator::str2enum(const QString &string) {
     if (algorithm == QLatin1String("sha3_512")) {
         return QCryptographicHash::Algorithm::Sha3_512;
     }
-    return QCryptographicHash::Algorithm::Md4;
+    return QCryptographicHash::Algorithm::Md5;
 }
 
 QString HashCalculator::hash() const { return computeResult; }

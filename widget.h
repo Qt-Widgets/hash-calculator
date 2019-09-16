@@ -74,4 +74,5 @@ private:
         {qMakePair(QLatin1String("SHA3-256"), QLatin1String("sha3_256"))},
         {qMakePair(QLatin1String("SHA3-384"), QLatin1String("sha3_384"))},
         {qMakePair(QLatin1String("SHA3-512"), QLatin1String("sha3_512"))}};
+    int totalFileCount = 0, unmatchedFileCount = 0;
 };

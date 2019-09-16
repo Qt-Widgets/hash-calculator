@@ -125,135 +125,155 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="28"/>
+        <location filename="widget.cpp" line="32"/>
         <source>Please select a file(s)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="37"/>
+        <location filename="widget.cpp" line="41"/>
         <source>Please select a folder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="65"/>
+        <location filename="widget.cpp" line="70"/>
         <source>You have to enter a hash value first.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="64"/>
+        <location filename="widget.cpp" line="69"/>
         <source>Empty hash string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="94"/>
+        <location filename="widget.cpp" line="102"/>
+        <source>Hash value matched</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="widget.cpp" line="103"/>
+        <source>There is/are %1 value(s) matched your input and they have been marked using a different format. Please check.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="widget.cpp" line="108"/>
         <source>No search result</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="95"/>
+        <location filename="widget.cpp" line="109"/>
         <source>There is no same hash value.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="102"/>
+        <location filename="widget.cpp" line="116"/>
         <source>Open a hash file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="118"/>
+        <location filename="widget.cpp" line="132"/>
         <source>No hash data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="119"/>
+        <location filename="widget.cpp" line="133"/>
         <source>No files have been processed before.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="122"/>
+        <location filename="widget.cpp" line="136"/>
         <source>Save hash file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="146"/>
+        <location filename="widget.cpp" line="160"/>
         <source>&lt;font color=&quot;green&quot;&gt;&lt;b&gt;[VERIFIED]&lt;/b&gt;&lt;/font&gt;: &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="152"/>
+        <location filename="widget.cpp" line="167"/>
         <source>&lt;font color=&quot;red&quot;&gt;&lt;b&gt;[UNMATCHED]&lt;/b&gt;&lt;/font&gt;: &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="156"/>
+        <location filename="widget.cpp" line="171"/>
         <source>&lt;font color=&quot;blue&quot;&gt;&lt;b&gt;File %1&lt;/b&gt;&lt;/font&gt;: %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="161"/>
+        <location filename="widget.cpp" line="176"/>
         <source>&lt;font color=&quot;#287CE5&quot;&gt;&lt;b&gt;File %1&lt;/b&gt;&lt;/font&gt;: %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="202"/>
+        <location filename="widget.cpp" line="217"/>
         <source>&lt;font color=&quot;red&quot;&gt;&lt;b&gt;File path&lt;/b&gt;&lt;/font&gt;: &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="293"/>
-        <location filename="widget.cpp" line="634"/>
+        <location filename="widget.cpp" line="251"/>
+        <source>Wrong algorithm</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="widget.cpp" line="252"/>
+        <source>%1 of the given hash values are mismatched with their corresponding real files while the total file count is %2. Maybe you selected a wrong hash algorithm.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="widget.cpp" line="322"/>
+        <location filename="widget.cpp" line="665"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="294"/>
-        <location filename="widget.cpp" line="635"/>
+        <location filename="widget.cpp" line="323"/>
+        <location filename="widget.cpp" line="666"/>
         <source>Failed to open file: &quot;%1&quot;!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="344"/>
+        <location filename="widget.cpp" line="373"/>
         <source>&lt;font color=&quot;red&quot;&gt;&lt;b&gt;WARNING: The drag &amp; drop event was ignored due to the computing process is running.&lt;/b&gt;&lt;/font&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="356"/>
+        <location filename="widget.cpp" line="385"/>
         <source>&lt;font color=&quot;red&quot;&gt;&lt;b&gt;WARNING: The drag &amp; drop event was ignored due to no hash algorithms were selected.&lt;/b&gt;&lt;/font&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="577"/>
-        <location filename="widget.cpp" line="590"/>
+        <location filename="widget.cpp" line="608"/>
+        <location filename="widget.cpp" line="621"/>
         <source>No algorithms selected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="578"/>
+        <location filename="widget.cpp" line="609"/>
         <source>You should select at least one hash algorithm.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="591"/>
+        <location filename="widget.cpp" line="622"/>
         <source>You should select a hash algorithm.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="598"/>
+        <location filename="widget.cpp" line="629"/>
         <source>Too many algorithms</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="599"/>
+        <location filename="widget.cpp" line="630"/>
         <source>You can only select one hash algorithm in this mode.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="656"/>
+        <location filename="widget.cpp" line="687"/>
         <source>Done</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="657"/>
+        <location filename="widget.cpp" line="688"/>
         <source>All hash values have been written to file(s), please check.</source>
         <translation type="unfinished"></translation>
     </message>

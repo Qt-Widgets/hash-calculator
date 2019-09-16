@@ -8,6 +8,7 @@
 #include <QMessageBox>
 #include <QMimeData>
 #include <QRegularExpression>
+#include <QRegularExpressionValidator>
 #include <QTextStream>
 #include <QUrl>
 #include <QtConcurrent>
@@ -18,6 +19,9 @@
 
 Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
     ui->setupUi(this);
+    QValidator *validator = new QRegularExpressionValidator(
+        QRegularExpression(QLatin1String("[0-9A-Za-z]*")), ui->lineEdit_hash);
+    ui->lineEdit_hash->setValidator(validator);
     hashCalculator.moveToThread(&thread);
     // FIXME: Use function pointer.
     connect(&futureWatcher, SIGNAL(finished()), this,
@@ -59,12 +63,14 @@ Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
         }
     });
     connect(ui->pushButton_compare, &QPushButton::clicked, this, [this] {
-        const QString targetHash = ui->lineEdit_hash->text().trimmed();
+        const QString targetHash =
+            ui->lineEdit_hash->text().trimmed().toUpper();
         if (targetHash.isEmpty()) {
             QMessageBox::warning(this, tr("Empty hash string"),
                                  tr("You have to enter a hash value first."));
         } else {
             bool found = false;
+            int count = 0;
             QTextDocument *textDocument = ui->textEdit_log->document();
             QTextCursor highLightTextCursor(textDocument);
             QTextCursor textCursor(textDocument);
@@ -80,17 +86,25 @@ Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
                 QTextCharFormat::DashDotLine);
             while (!highLightTextCursor.isNull() &&
                    !highLightTextCursor.atEnd()) {
-                highLightTextCursor = textDocument->find(
-                    targetHash.toUpper(), highLightTextCursor,
-                    QTextDocument::FindWholeWords);
+                highLightTextCursor =
+                    textDocument->find(targetHash, highLightTextCursor,
+                                       QTextDocument::FindWholeWords);
                 if (!highLightTextCursor.isNull()) {
                     found = true;
+                    ++count;
                     highLightTextCursor.mergeCharFormat(
                         highLightTextCharFormat);
                 }
             }
             textCursor.endEditBlock();
-            if (!found) {
+            if (found) {
+                QMessageBox::information(
+                    this, tr("Hash value matched"),
+                    tr("There is/are %1 value(s) matched your input and they "
+                       "have been marked using a different format. Please "
+                       "check.")
+                        .arg(count));
+            } else {
                 QMessageBox::information(this, tr("No search result"),
                                          tr("There is no same hash value."));
             }
@@ -148,6 +162,7 @@ Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
                                "\"%1\"")
                                 .arg(_path));
                     } else {
+                        ++unmatchedFileCount;
                         ui->textEdit_log->append(
                             tr("<font color=\"red\"><b>[UNMATCHED]</b></font>: "
                                "\"%1\"")
@@ -228,7 +243,21 @@ Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
                 ui->pushButton_export->setEnabled(true);
             }
             isComputing = false;
-            verifyMode = false;
+            if (verifyMode) {
+                verifyMode = false;
+                if (unmatchedFileCount >=
+                    static_cast<int>(0.8 * totalFileCount)) {
+                    QMessageBox::information(
+                        this, tr("Wrong algorithm"),
+                        tr("%1 of the given hash values are mismatched with "
+                           "their corresponding real files while the total "
+                           "file count is %2. Maybe you selected a wrong hash "
+                           "algorithm.")
+                            .arg(unmatchedFileCount, totalFileCount));
+                }
+            }
+            totalFileCount = 0;
+            unmatchedFileCount = 0;
         } else {
             computeFileHash(fileList.constLast());
         }
@@ -239,14 +268,14 @@ Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
 Widget::~Widget() {
     delete ui;
     ui = nullptr;
+    hashCalculator.stop();
+    thread.quit();
+    thread.wait();
     futureWatcherCanceled = true;
     if (futureWatcher.isRunning()) {
         futureWatcher.cancel();
         futureWatcher.waitForFinished();
     }
-    hashCalculator.stop();
-    thread.quit();
-    thread.wait();
 }
 
 void Widget::verifyHashFile(const QString &filePath,
@@ -475,6 +504,8 @@ void Widget::setFileList(const PairStringList &list) {
     fileList = list;
     const int count = fileList.count();
     multiFileMode = (count > 1);
+    totalFileCount = count;
+    unmatchedFileCount = 0;
     ui->progressBar_total->setValue(0);
     ui->progressBar_total->setMaximum(count);
     if (ui->pushButton_open_file->isEnabled()) {

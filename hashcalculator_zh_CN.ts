@@ -220,60 +220,80 @@
         <translation>有 %1 个（共 %2 个）哈希值与其对应的文件不匹配。您可能选择了错误的哈希算法。</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="321"/>
-        <location filename="widget.cpp" line="664"/>
+        <location filename="widget.cpp" line="258"/>
+        <source>Verification failed</source>
+        <translation>验证失败</translation>
+    </message>
+    <message>
+        <location filename="widget.cpp" line="259"/>
+        <source>There is/are %1 hash value(s) do not match their corresponding file(s).</source>
+        <translation>有 %1 个哈希值与它们所对应的文件不匹配。</translation>
+    </message>
+    <message>
+        <location filename="widget.cpp" line="264"/>
+        <source>Verification passed</source>
+        <translation>验证成功</translation>
+    </message>
+    <message>
+        <location filename="widget.cpp" line="265"/>
+        <source>All files matched their hash values.</source>
+        <translation>所有文件均与它们的哈希值相匹配。</translation>
+    </message>
+    <message>
+        <location filename="widget.cpp" line="331"/>
+        <location filename="widget.cpp" line="674"/>
         <source>Error</source>
         <translation>错误</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="322"/>
-        <location filename="widget.cpp" line="665"/>
+        <location filename="widget.cpp" line="332"/>
+        <location filename="widget.cpp" line="675"/>
         <source>Failed to open file: &quot;%1&quot;!</source>
         <translation>无法打开文件：&quot;%1&quot;！</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="372"/>
+        <location filename="widget.cpp" line="382"/>
         <source>&lt;font color=&quot;red&quot;&gt;&lt;b&gt;WARNING: The drag &amp; drop event was ignored due to the computing process is running.&lt;/b&gt;&lt;/font&gt;</source>
         <translation>&lt;font color=&quot;red&quot;&gt;&lt;b&gt;警告：因为正在进行计算，所以拖放事件已被忽略。&lt;/b&gt;&lt;/font&gt;</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="384"/>
+        <location filename="widget.cpp" line="394"/>
         <source>&lt;font color=&quot;red&quot;&gt;&lt;b&gt;WARNING: The drag &amp; drop event was ignored due to no hash algorithms were selected.&lt;/b&gt;&lt;/font&gt;</source>
         <translation>&lt;font color=&quot;red&quot;&gt;&lt;b&gt;警告：因为没有选择哈希算法，所以拖放事件已被忽略。&lt;/b&gt;&lt;/font&gt;</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="607"/>
-        <location filename="widget.cpp" line="620"/>
+        <location filename="widget.cpp" line="617"/>
+        <location filename="widget.cpp" line="630"/>
         <source>No algorithms selected</source>
         <translation>没有选择算法</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="608"/>
+        <location filename="widget.cpp" line="618"/>
         <source>You should select at least one hash algorithm.</source>
         <translation>您应该选择至少一个哈希算法。</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="621"/>
+        <location filename="widget.cpp" line="631"/>
         <source>You should select a hash algorithm.</source>
         <translation>您应该选择一个哈希算法。</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="628"/>
+        <location filename="widget.cpp" line="638"/>
         <source>Too many algorithms</source>
         <translation>算法过多</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="629"/>
+        <location filename="widget.cpp" line="639"/>
         <source>You can only select one hash algorithm in this mode.</source>
         <translation>在这个模式下，您能且只能选择一个哈希算法。</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="686"/>
+        <location filename="widget.cpp" line="696"/>
         <source>Done</source>
         <translation>已完成</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="687"/>
+        <location filename="widget.cpp" line="697"/>
         <source>All hash values have been written to file(s), please check.</source>
         <translation>所有哈希值均已被写入到文件中，请检查。</translation>
     </message>

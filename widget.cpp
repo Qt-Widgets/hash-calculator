@@ -253,6 +253,16 @@ Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
                            "match their corresponding file(s). Maybe you "
                            "selected a wrong hash algorithm.")
                             .arg(unmatchedFileCount, totalFileCount));
+                } else if (unmatchedFileCount > 0) {
+                    QMessageBox::information(
+                        this, tr("Verification failed"),
+                        tr("There is/are %1 hash value(s) do not match their "
+                           "corresponding file(s).")
+                            .arg(unmatchedFileCount));
+                } else {
+                    QMessageBox::information(
+                        this, tr("Verification passed"),
+                        tr("All files matched their hash values."));
                 }
             }
             totalFileCount = 0;

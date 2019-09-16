@@ -100,8 +100,8 @@ Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
             if (found) {
                 QMessageBox::information(
                     this, tr("Hash value matched"),
-                    tr("There is/are %1 value(s) matched your input and they "
-                       "have been marked using a different format. Please "
+                    tr("There is/are %1 hash value(s) matched your input and "
+                       "they have been marked using a different format. Please "
                        "check.")
                         .arg(count));
             } else {
@@ -248,11 +248,10 @@ Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
                 if (unmatchedFileCount >=
                     static_cast<int>(0.8 * totalFileCount)) {
                     QMessageBox::information(
-                        this, tr("Wrong algorithm"),
-                        tr("%1 of the given hash values are mismatched with "
-                           "their corresponding real files while the total "
-                           "file count is %2. Maybe you selected a wrong hash "
-                           "algorithm.")
+                        this, tr("Probably wrong algorithm"),
+                        tr("There is/are %1 out of %2 hash value(s) do not "
+                           "match their corresponding file(s). Maybe you "
+                           "selected a wrong hash algorithm.")
                             .arg(unmatchedFileCount, totalFileCount));
                 }
             }

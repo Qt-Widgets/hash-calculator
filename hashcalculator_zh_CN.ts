@@ -151,8 +151,8 @@
     </message>
     <message>
         <location filename="widget.cpp" line="103"/>
-        <source>There is/are %1 value(s) matched your input and they have been marked using a different format. Please check.</source>
-        <translation>有 %1 个值与您的输入相匹配，并且它们已经被使用不同的格式标记出来了。请检查。</translation>
+        <source>There is/are %1 hash value(s) matched your input and they have been marked using a different format. Please check.</source>
+        <translation>有 %1 个哈希值与您的输入相匹配，并且它们已经被用不同的格式标记出来了。请检查。</translation>
     </message>
     <message>
         <location filename="widget.cpp" line="108"/>
@@ -211,69 +211,69 @@
     </message>
     <message>
         <location filename="widget.cpp" line="251"/>
-        <source>Wrong algorithm</source>
-        <translation>错误的算法</translation>
+        <source>Probably wrong algorithm</source>
+        <translation>可能错误的算法</translation>
     </message>
     <message>
         <location filename="widget.cpp" line="252"/>
-        <source>%1 of the given hash values are mismatched with their corresponding real files while the total file count is %2. Maybe you selected a wrong hash algorithm.</source>
-        <translation>文件总数为 %2，然而 %1 个给定的哈希值与其对应的真实文件不匹配。您可能选择了错误的哈希算法。</translation>
+        <source>There is/are %1 out of %2 hash value(s) do not match their corresponding file(s). Maybe you selected a wrong hash algorithm.</source>
+        <translation>有 %1 个（共 %2 个）哈希值与其对应的文件不匹配。您可能选择了错误的哈希算法。</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="322"/>
-        <location filename="widget.cpp" line="665"/>
+        <location filename="widget.cpp" line="321"/>
+        <location filename="widget.cpp" line="664"/>
         <source>Error</source>
         <translation>错误</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="323"/>
-        <location filename="widget.cpp" line="666"/>
+        <location filename="widget.cpp" line="322"/>
+        <location filename="widget.cpp" line="665"/>
         <source>Failed to open file: &quot;%1&quot;!</source>
         <translation>无法打开文件：&quot;%1&quot;！</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="373"/>
+        <location filename="widget.cpp" line="372"/>
         <source>&lt;font color=&quot;red&quot;&gt;&lt;b&gt;WARNING: The drag &amp; drop event was ignored due to the computing process is running.&lt;/b&gt;&lt;/font&gt;</source>
         <translation>&lt;font color=&quot;red&quot;&gt;&lt;b&gt;警告：因为正在进行计算，所以拖放事件已被忽略。&lt;/b&gt;&lt;/font&gt;</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="385"/>
+        <location filename="widget.cpp" line="384"/>
         <source>&lt;font color=&quot;red&quot;&gt;&lt;b&gt;WARNING: The drag &amp; drop event was ignored due to no hash algorithms were selected.&lt;/b&gt;&lt;/font&gt;</source>
         <translation>&lt;font color=&quot;red&quot;&gt;&lt;b&gt;警告：因为没有选择哈希算法，所以拖放事件已被忽略。&lt;/b&gt;&lt;/font&gt;</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="608"/>
-        <location filename="widget.cpp" line="621"/>
+        <location filename="widget.cpp" line="607"/>
+        <location filename="widget.cpp" line="620"/>
         <source>No algorithms selected</source>
         <translation>没有选择算法</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="609"/>
+        <location filename="widget.cpp" line="608"/>
         <source>You should select at least one hash algorithm.</source>
         <translation>您应该选择至少一个哈希算法。</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="622"/>
+        <location filename="widget.cpp" line="621"/>
         <source>You should select a hash algorithm.</source>
         <translation>您应该选择一个哈希算法。</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="629"/>
+        <location filename="widget.cpp" line="628"/>
         <source>Too many algorithms</source>
         <translation>算法过多</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="630"/>
+        <location filename="widget.cpp" line="629"/>
         <source>You can only select one hash algorithm in this mode.</source>
         <translation>在这个模式下，您能且只能选择一个哈希算法。</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="687"/>
+        <location filename="widget.cpp" line="686"/>
         <source>Done</source>
         <translation>已完成</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="688"/>
+        <location filename="widget.cpp" line="687"/>
         <source>All hash values have been written to file(s), please check.</source>
         <translation>所有哈希值均已被写入到文件中，请检查。</translation>
     </message>

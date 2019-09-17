@@ -210,90 +210,90 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="252"/>
+        <location filename="widget.cpp" line="255"/>
         <source>Probably wrong algorithm</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="253"/>
+        <location filename="widget.cpp" line="256"/>
         <source>There is/are %1 (which is 80% of total) hash value(s) do(es) not match their corresponding file(s). Maybe you selected a wrong hash algorithm.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="261"/>
+        <location filename="widget.cpp" line="264"/>
         <source>There is/are %1 hash value(s) do(es) not match their corresponding file(s).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="267"/>
+        <location filename="widget.cpp" line="270"/>
         <source>All file(s) matched their hash value(s).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="260"/>
+        <location filename="widget.cpp" line="263"/>
         <source>Verification failed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="266"/>
+        <location filename="widget.cpp" line="269"/>
         <source>Verification passed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="337"/>
-        <location filename="widget.cpp" line="680"/>
+        <location filename="widget.cpp" line="340"/>
+        <location filename="widget.cpp" line="683"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="338"/>
-        <location filename="widget.cpp" line="681"/>
+        <location filename="widget.cpp" line="341"/>
+        <location filename="widget.cpp" line="684"/>
         <source>Failed to open file: &quot;%1&quot;!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="388"/>
+        <location filename="widget.cpp" line="391"/>
         <source>&lt;font color=&quot;red&quot;&gt;&lt;b&gt;WARNING: The drag &amp; drop event was ignored due to the computing process is running.&lt;/b&gt;&lt;/font&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="400"/>
+        <location filename="widget.cpp" line="403"/>
         <source>&lt;font color=&quot;red&quot;&gt;&lt;b&gt;WARNING: The drag &amp; drop event was ignored due to no hash algorithms were selected.&lt;/b&gt;&lt;/font&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="623"/>
-        <location filename="widget.cpp" line="636"/>
+        <location filename="widget.cpp" line="626"/>
+        <location filename="widget.cpp" line="639"/>
         <source>No algorithms selected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="624"/>
+        <location filename="widget.cpp" line="627"/>
         <source>You should select at least one hash algorithm.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="637"/>
+        <location filename="widget.cpp" line="640"/>
         <source>You should select a hash algorithm.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="644"/>
+        <location filename="widget.cpp" line="647"/>
         <source>Too many algorithms</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="645"/>
+        <location filename="widget.cpp" line="648"/>
         <source>You can only select one hash algorithm in this mode.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="702"/>
+        <location filename="widget.cpp" line="707"/>
         <source>Done</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="703"/>
+        <location filename="widget.cpp" line="708"/>
         <source>All hash values have been written to file(s), please check.</source>
         <translation type="unfinished"></translation>
     </message>

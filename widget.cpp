@@ -246,8 +246,11 @@ Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
             if (verifyMode) {
                 verifyMode = false;
                 if (!silentMode) {
-                    if (unmatchedFileCount >=
-                        static_cast<int>(0.8 * totalFileCount)) {
+                    // Do not warn about wrong algorithm if the amount of files
+                    // is not large enough.
+                    if ((totalFileCount >= 100) &&
+                        (unmatchedFileCount >=
+                         static_cast<int>(0.8 * totalFileCount))) {
                         QMessageBox::critical(
                             this, tr("Probably wrong algorithm"),
                             tr("There is/are %1 (which is 80% of total) hash "
@@ -683,7 +686,8 @@ void Widget::generateHashFile(const QString &fileNameTemplate) {
             }
             for (int i = 1; i != hashData.count(); ++i) {
                 // Use lowered hash string
-                // Should we use absolute file path or just file name?
+                // FIXME: Use absolute file path or just file name?
+                // FIXME: Are double quotation marks necessary?
                 const auto &data = hashData.at(i);
                 const auto &hash = data.first.toLower();
                 auto path = QDir::toNativeSeparators(data.second);
@@ -693,7 +697,8 @@ void Widget::generateHashFile(const QString &fileNameTemplate) {
                 if (!path.endsWith(QLatin1Char('\"'))) {
                     path.append(QLatin1Char('\"'));
                 }
-                textStream << hash << QLatin1Char('\t') << path << endl;
+                // FIXME: Use tab or space?
+                textStream << hash << QLatin1String("    ") << path << endl;
             }
             file.close();
         }

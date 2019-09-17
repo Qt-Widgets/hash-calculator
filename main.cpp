@@ -49,11 +49,18 @@ int main(int argc, char *argv[]) {
             "Use the given <hash algorithm> to verify the given files."),
         QCoreApplication::translate("main", "hash algorithm"));
     commandLineParser.addOption(hashAlgorithmOption);
+    const QCommandLineOption silentOption(
+        QLatin1String("silent"),
+        QCoreApplication::translate("main",
+                                    "Do not show any message boxes when the "
+                                    "verify process is finished."));
+    commandLineParser.addOption(silentOption);
     commandLineParser.process(application);
     const QString hashFilePath =
         commandLineParser.value(hashFileOption).trimmed();
     const QString hashAlgorithm =
         commandLineParser.value(hashAlgorithmOption).trimmed();
+    const bool silentMode = commandLineParser.isSet(silentOption);
     Widget widget;
 #ifndef Q_OS_WINDOWS
     widget.setWindowIcon(QIcon(QLatin1String(":/hashcalculator.svg")));
@@ -69,7 +76,8 @@ int main(int argc, char *argv[]) {
                                             "The hash file you choose does not "
                                             "exist or is not a file."));
         } else {
-            widget.verifyHashFile(hashFilePath, hashAlgorithm, true);
+            widget.verifyHashFile(hashFilePath, hashAlgorithm, true,
+                                  silentMode);
         }
     }
     return QApplication::exec();

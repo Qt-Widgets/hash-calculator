@@ -210,90 +210,90 @@
         <translation>&lt;font color=&quot;red&quot;&gt;&lt;b&gt;文件路径&lt;/b&gt;&lt;/font&gt;：&quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="251"/>
+        <location filename="widget.cpp" line="252"/>
         <source>Probably wrong algorithm</source>
         <translation>可能错误的算法</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="252"/>
-        <source>There is/are %1 out of %2 hash value(s) do not match their corresponding file(s). Maybe you selected a wrong hash algorithm.</source>
-        <translation>有 %1 个（共 %2 个）哈希值与其对应的文件不匹配。您可能选择了错误的哈希算法。</translation>
+        <location filename="widget.cpp" line="253"/>
+        <source>There is/are %1 (which is 80% of total) hash value(s) do(es) not match their corresponding file(s). Maybe you selected a wrong hash algorithm.</source>
+        <translation>有 %1（总数的 80%）个哈希值与它们对应的文件不相匹配。您可能选择了错误的算法。</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="258"/>
+        <location filename="widget.cpp" line="261"/>
+        <source>There is/are %1 hash value(s) do(es) not match their corresponding file(s).</source>
+        <translation>有 %1 个哈希值与它们对应的文件不相匹配。</translation>
+    </message>
+    <message>
+        <location filename="widget.cpp" line="267"/>
+        <source>All file(s) matched their hash value(s).</source>
+        <translation>所有文件均与它们的哈希值相匹配。</translation>
+    </message>
+    <message>
+        <location filename="widget.cpp" line="260"/>
         <source>Verification failed</source>
         <translation>验证失败</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="259"/>
-        <source>There is/are %1 hash value(s) do not match their corresponding file(s).</source>
-        <translation>有 %1 个哈希值与它们所对应的文件不匹配。</translation>
-    </message>
-    <message>
-        <location filename="widget.cpp" line="264"/>
+        <location filename="widget.cpp" line="266"/>
         <source>Verification passed</source>
         <translation>验证成功</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="265"/>
-        <source>All files matched their hash values.</source>
-        <translation>所有文件均与它们的哈希值相匹配。</translation>
-    </message>
-    <message>
-        <location filename="widget.cpp" line="331"/>
-        <location filename="widget.cpp" line="674"/>
+        <location filename="widget.cpp" line="337"/>
+        <location filename="widget.cpp" line="680"/>
         <source>Error</source>
         <translation>错误</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="332"/>
-        <location filename="widget.cpp" line="675"/>
+        <location filename="widget.cpp" line="338"/>
+        <location filename="widget.cpp" line="681"/>
         <source>Failed to open file: &quot;%1&quot;!</source>
         <translation>无法打开文件：&quot;%1&quot;！</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="382"/>
+        <location filename="widget.cpp" line="388"/>
         <source>&lt;font color=&quot;red&quot;&gt;&lt;b&gt;WARNING: The drag &amp; drop event was ignored due to the computing process is running.&lt;/b&gt;&lt;/font&gt;</source>
         <translation>&lt;font color=&quot;red&quot;&gt;&lt;b&gt;警告：因为正在进行计算，所以拖放事件已被忽略。&lt;/b&gt;&lt;/font&gt;</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="394"/>
+        <location filename="widget.cpp" line="400"/>
         <source>&lt;font color=&quot;red&quot;&gt;&lt;b&gt;WARNING: The drag &amp; drop event was ignored due to no hash algorithms were selected.&lt;/b&gt;&lt;/font&gt;</source>
         <translation>&lt;font color=&quot;red&quot;&gt;&lt;b&gt;警告：因为没有选择哈希算法，所以拖放事件已被忽略。&lt;/b&gt;&lt;/font&gt;</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="617"/>
-        <location filename="widget.cpp" line="630"/>
+        <location filename="widget.cpp" line="623"/>
+        <location filename="widget.cpp" line="636"/>
         <source>No algorithms selected</source>
         <translation>没有选择算法</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="618"/>
+        <location filename="widget.cpp" line="624"/>
         <source>You should select at least one hash algorithm.</source>
         <translation>您应该选择至少一个哈希算法。</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="631"/>
+        <location filename="widget.cpp" line="637"/>
         <source>You should select a hash algorithm.</source>
         <translation>您应该选择一个哈希算法。</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="638"/>
+        <location filename="widget.cpp" line="644"/>
         <source>Too many algorithms</source>
         <translation>算法过多</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="639"/>
+        <location filename="widget.cpp" line="645"/>
         <source>You can only select one hash algorithm in this mode.</source>
         <translation>在这个模式下，您能且只能选择一个哈希算法。</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="696"/>
+        <location filename="widget.cpp" line="702"/>
         <source>Done</source>
         <translation>已完成</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="697"/>
+        <location filename="widget.cpp" line="703"/>
         <source>All hash values have been written to file(s), please check.</source>
         <translation>所有哈希值均已被写入到文件中，请检查。</translation>
     </message>
@@ -326,12 +326,17 @@
         <translation>哈希算法</translation>
     </message>
     <message>
-        <location filename="main.cpp" line="67"/>
+        <location filename="main.cpp" line="54"/>
+        <source>Do not show any message boxes when the verify process is finished.</source>
+        <translation>当验证过程完成后不要显示任何消息框。</translation>
+    </message>
+    <message>
+        <location filename="main.cpp" line="74"/>
         <source>Invalid hash file</source>
         <translation>哈希文件无效</translation>
     </message>
     <message>
-        <location filename="main.cpp" line="68"/>
+        <location filename="main.cpp" line="75"/>
         <source>The hash file you choose does not exist or is not a file.</source>
         <translation>您选择的哈希文件不存在或不是一个文件。</translation>
     </message>

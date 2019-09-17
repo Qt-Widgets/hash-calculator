@@ -245,26 +245,30 @@ Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
             isComputing = false;
             if (verifyMode) {
                 verifyMode = false;
-                if (unmatchedFileCount >=
-                    static_cast<int>(0.8 * totalFileCount)) {
-                    QMessageBox::information(
-                        this, tr("Probably wrong algorithm"),
-                        tr("There is/are %1 out of %2 hash value(s) do not "
-                           "match their corresponding file(s). Maybe you "
-                           "selected a wrong hash algorithm.")
-                            .arg(unmatchedFileCount, totalFileCount));
-                } else if (unmatchedFileCount > 0) {
-                    QMessageBox::information(
-                        this, tr("Verification failed"),
-                        tr("There is/are %1 hash value(s) do not match their "
-                           "corresponding file(s).")
-                            .arg(unmatchedFileCount));
-                } else {
-                    QMessageBox::information(
-                        this, tr("Verification passed"),
-                        tr("All files matched their hash values."));
+                if (!silentMode) {
+                    if (unmatchedFileCount >=
+                        static_cast<int>(0.8 * totalFileCount)) {
+                        QMessageBox::critical(
+                            this, tr("Probably wrong algorithm"),
+                            tr("There is/are %1 (which is 80% of total) hash "
+                               "value(s) do(es) not match their corresponding "
+                               "file(s). Maybe you selected a wrong hash "
+                               "algorithm.")
+                                .arg(unmatchedFileCount));
+                    } else if (unmatchedFileCount > 0) {
+                        QMessageBox::warning(
+                            this, tr("Verification failed"),
+                            tr("There is/are %1 hash value(s) do(es) not match "
+                               "their corresponding file(s).")
+                                .arg(unmatchedFileCount));
+                    } else {
+                        QMessageBox::information(
+                            this, tr("Verification passed"),
+                            tr("All file(s) matched their hash value(s)."));
+                    }
                 }
             }
+            silentMode = false;
             totalFileCount = 0;
             unmatchedFileCount = 0;
         } else {
@@ -288,7 +292,8 @@ Widget::~Widget() {
 }
 
 void Widget::verifyHashFile(const QString &filePath,
-                            const QString &algorithmName, bool fromCmd) {
+                            const QString &algorithmName, bool fromCmd,
+                            bool silent) {
     if (filePath.isEmpty() || (fromCmd && algorithmName.isEmpty())) {
         return;
     }
@@ -297,6 +302,7 @@ void Widget::verifyHashFile(const QString &filePath,
     }
     bool checked = !fromCmd;
     if (fromCmd) {
+        silentMode = silent;
         const QString _algorithm = algorithmName.toLower().remove(
             QRegularExpression(QLatin1String("(-|_)+")));
         ui->checkBox_md4->setChecked(_algorithm == QLatin1String("md4"));

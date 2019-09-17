@@ -28,7 +28,7 @@ public:
 
     void verifyHashFile(const QString &filePath,
                         const QString &algorithmName = QString(),
-                        bool fromCmd = false);
+                        bool fromCmd = false, bool silent = false);
 
 public Q_SLOTS:
     void handleDirSearching();
@@ -58,7 +58,7 @@ private:
     QThread thread;
     QVector<QString> algorithmList = {};
     bool isComputing = false, multiFileMode = false,
-         futureWatcherCanceled = false, verifyMode = false;
+         futureWatcherCanceled = false, verifyMode = false, silentMode = false;
     QFutureWatcher<QVector<QString>> futureWatcher;
     PairStringList fileList = {};
     QVector<PairStringList> hashList = {

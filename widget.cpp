@@ -22,10 +22,8 @@ Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
     QValidator *validator = new QRegularExpressionValidator(
         QRegularExpression(QLatin1String("[0-9A-Za-z]*")), ui->lineEdit_hash);
     ui->lineEdit_hash->setValidator(validator);
-    hashCalculator.moveToThread(&thread);
-    // FIXME: Use function pointer.
-    connect(&futureWatcher, SIGNAL(finished()), this,
-            SLOT(handleDirSearching()));
+    qRegisterMetaType<PairStringList>("PairStringList");
+    connect(this, &Widget::private_setFileList, this, &Widget::setFileList);
     connect(ui->pushButton_open_file, &QPushButton::clicked, this, [this] {
         if (checkAlgorithmListMore()) {
             const auto list = QFileDialog::getOpenFileNames(
@@ -47,11 +45,18 @@ Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
                 ui->pushButton_open_folder->setEnabled(false);
                 ui->pushButton_import->setEnabled(false);
                 ui->pushButton_export->setEnabled(false);
-                QFuture<QVector<QString>> future =
-                    QtConcurrent::run([=]() -> QVector<QString> {
-                        return getFolderContents(path);
-                    });
-                futureWatcher.setFuture(future);
+                QtConcurrent::run([this, path]() {
+                    const auto list = getFolderContents(path);
+                    if (list.isEmpty()) {
+                        isComputing = false;
+                        ui->pushButton_open_file->setEnabled(true);
+                        ui->pushButton_open_folder->setEnabled(true);
+                        ui->pushButton_import->setEnabled(true);
+                        ui->pushButton_export->setEnabled(true);
+                    } else {
+                        Q_EMIT private_setFileList(list2vector(list));
+                    }
+                });
             }
         }
     });
@@ -278,20 +283,12 @@ Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
             computeFileHash(fileList.constLast());
         }
     });
-    thread.start();
 }
 
 Widget::~Widget() {
     delete ui;
     ui = nullptr;
     hashCalculator.stop();
-    thread.quit();
-    thread.wait();
-    futureWatcherCanceled = true;
-    if (futureWatcher.isRunning()) {
-        futureWatcher.cancel();
-        futureWatcher.waitForFinished();
-    }
 }
 
 void Widget::verifyHashFile(const QString &filePath,
@@ -366,22 +363,6 @@ void Widget::verifyHashFile(const QString &filePath,
             verifyMode = true;
             setFileList(_fileList);
         }
-    }
-}
-
-void Widget::handleDirSearching() {
-    if (futureWatcherCanceled) {
-        return;
-    }
-    const QVector<QString> list = futureWatcher.result();
-    if (list.isEmpty()) {
-        isComputing = false;
-        ui->pushButton_open_file->setEnabled(true);
-        ui->pushButton_open_folder->setEnabled(true);
-        ui->pushButton_import->setEnabled(true);
-        ui->pushButton_export->setEnabled(true);
-    } else {
-        setFileList(list2vector(list));
     }
 }
 
@@ -506,7 +487,7 @@ void Widget::computeFileHash(const QPair<QString, QString> &targetFile) {
     hashCalculator.setFile(fileInfo.isSymLink() ? fileInfo.symLinkTarget()
                                                 : fileInfo.canonicalFilePath(),
                            targetFile.second);
-    Q_EMIT hashCalculator.startComputing();
+    hashCalculator.compute();
 }
 
 void Widget::setFileList(const PairStringList &list) {

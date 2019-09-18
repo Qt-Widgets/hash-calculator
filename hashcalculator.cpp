@@ -2,13 +2,13 @@
 #include <QDebug>
 #include <QDir>
 #include <QFileInfo>
+#include <QMutexLocker>
+#include <QtConcurrent>
 
-HashCalculator::HashCalculator(QObject *parent) : QObject(parent) {
-    connect(this, &HashCalculator::startComputing, this,
-            &HashCalculator::compute);
-}
+HashCalculator::HashCalculator(QObject *parent) : QObject(parent) {}
 
 void HashCalculator::setFile(const QString &path, const QString &targetHash) {
+    QMutexLocker mutexLocker(&mutex);
     if (QDir::toNativeSeparators(path) ==
         QDir::toNativeSeparators(targetFile.fileName())) {
         return;
@@ -31,7 +31,7 @@ void HashCalculator::setFile(const QString &path, const QString &targetHash) {
     Q_EMIT fileChanged(_path);
 }
 
-void HashCalculator::compute() {
+void HashCalculator::calculateHashValue() {
     if (shouldStop) {
         return;
     }
@@ -45,6 +45,7 @@ void HashCalculator::compute() {
     const QString _filePath = file();
     Q_EMIT started(_filePath);
     for (const auto &algorithmString : qAsConst(hashAlgorithmList)) {
+        QMutexLocker mutexLocker(&mutex);
         if (shouldStop) {
             return;
         }
@@ -79,6 +80,7 @@ void HashCalculator::compute() {
 }
 
 void HashCalculator::reset() {
+    QMutexLocker mutexLocker(&mutex);
     targetHashValue.clear();
     if (targetFile.isOpen()) {
         targetFile.close();
@@ -97,7 +99,10 @@ void HashCalculator::reset() {
     shouldStop = false;
 }
 
-void HashCalculator::stop() { shouldStop = true; }
+void HashCalculator::stop() {
+    QMutexLocker mutexLocker(&mutex);
+    shouldStop = true;
+}
 
 QCryptographicHash::Algorithm HashCalculator::str2enum(const QString &string) {
     if (string.isEmpty()) {
@@ -154,6 +159,7 @@ QVector<QString> HashCalculator::algorithmList() const {
 }
 
 void HashCalculator::setAlgorithmList(const QVector<QString> &list) {
+    QMutexLocker mutexLocker(&mutex);
     if (list.isEmpty()) {
         return;
     }
@@ -162,3 +168,10 @@ void HashCalculator::setAlgorithmList(const QVector<QString> &list) {
 }
 
 QString HashCalculator::currentAlgorithm() const { return hashAlgorithm; }
+
+void HashCalculator::compute() {
+    if (shouldStop) {
+        return;
+    }
+    QtConcurrent::run([this]() { calculateHashValue(); });
+}

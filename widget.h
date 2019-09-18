@@ -1,9 +1,7 @@
 #pragma once
 
 #include "hashcalculator.h"
-#include <QFutureWatcher>
 #include <QPair>
-#include <QThread>
 #include <QVector>
 #include <QWidget>
 
@@ -19,9 +17,6 @@ class Widget : public QWidget {
 
     using PairStringList = QVector<QPair<QString, QString>>;
 
-Q_SIGNALS:
-    void started(int);
-
 public:
     explicit Widget(QWidget *parent = nullptr);
     ~Widget() override;
@@ -29,9 +24,6 @@ public:
     void verifyHashFile(const QString &filePath,
                         const QString &algorithmName = QString(),
                         bool fromCmd = false, bool silent = false);
-
-public Q_SLOTS:
-    void handleDirSearching();
 
 protected:
     void dragEnterEvent(QDragEnterEvent *event) override;
@@ -55,11 +47,9 @@ private:
 private:
     Ui::Widget *ui = nullptr;
     HashCalculator hashCalculator;
-    QThread thread;
     QVector<QString> algorithmList = {};
-    bool isComputing = false, multiFileMode = false,
-         futureWatcherCanceled = false, verifyMode = false, silentMode = false;
-    QFutureWatcher<QVector<QString>> futureWatcher;
+    bool isComputing = false, multiFileMode = false, verifyMode = false,
+         silentMode = false;
     PairStringList fileList = {};
     QVector<PairStringList> hashList = {
         // Algorithm name, hash file suffix
@@ -75,4 +65,8 @@ private:
         {qMakePair(QLatin1String("SHA3-384"), QLatin1String("sha3_384"))},
         {qMakePair(QLatin1String("SHA3-512"), QLatin1String("sha3_512"))}};
     int totalFileCount = 0, unmatchedFileCount = 0;
+
+Q_SIGNALS:
+    void started(int);
+    void private_setFileList(const PairStringList &);
 };

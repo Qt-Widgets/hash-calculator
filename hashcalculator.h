@@ -2,6 +2,7 @@
 
 #include <QCryptographicHash>
 #include <QFile>
+#include <QMutex>
 #include <QObject>
 #include <QVector>
 
@@ -25,9 +26,6 @@ Q_SIGNALS:
     // Emitted when computing just finished
     void finished(const QString &);
 
-    // Emit this signal = call compute()
-    void startComputing();
-
 public:
     explicit HashCalculator(QObject *parent = nullptr);
 
@@ -48,6 +46,7 @@ public:
     Q_INVOKABLE void stop();
 
 private:
+    void calculateHashValue();
     QCryptographicHash::Algorithm str2enum(const QString &string);
 
 private:
@@ -58,4 +57,5 @@ private:
             targetHashValue = QString();
     quint32 computeProgress = 0;
     bool shouldStop = false;
+    QMutex mutex;
 };
